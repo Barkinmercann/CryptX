@@ -55,13 +55,7 @@ class HomepageViewController: UIViewController {
         
         self.tableView.reloadData()
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showDetails", let detailsVC = segue.destination as? DetailsViewController, let indexPath = tableView.indexPathForSelectedRow {
-            detailsVC.coin = coinArray[indexPath.row]
-        }
-    }
-    
+
     func setupCosmetics() {
         
         let text = "Hello \(name)"
@@ -133,13 +127,13 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
                                                                for: indexPath) as? CoinTableViewCell else { return UITableViewCell() }
         
         let coin = coinArray[indexPath.row]
-                coinCell.configureCell(
-                    name: coin["name"] ?? "",
-                    symbol: coin["symbol"] ?? "",
-                    value: coin["price"] ?? "",
-                    symbolValue: coin["amount"] ?? "",
-                    image: coin["icon"] ?? ""
-                )
+        coinCell.configureCell(
+            name: coin["name"] ?? "",
+            symbol: coin["symbol"] ?? "",
+            value: coin["price"] ?? "",
+            symbolValue: coin["amount"] ?? "",
+            image: coin["icon"] ?? "")
+        
         return coinCell
     }
     
@@ -151,6 +145,8 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            performSegue(withIdentifier: "showDetails", sender: self)
+            if let tabBarController = self.tabBarController {
+                tabBarController.selectedIndex = 1
+            }
     }
 }

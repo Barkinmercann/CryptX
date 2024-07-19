@@ -41,21 +41,14 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.reloadData()
-        
-        let coin = object.coinArray[0]
-        updateLabels(name: coin["name"] ?? "",
-                    symbol: coin["symbol"] ?? "",
-                    value: coin["price"] ?? "",
-                    symbolValue: coin["amount"] ?? "",
-                    image: coin["icon"] ?? "")
-        
+                    
         chartContainerView.addSubview(lineChartView)
         lineChartView.width(to: chartContainerView)
         lineChartView.height(to: chartContainerView)
         
         setupCosmetics()
         setData()
+        collectionView.reloadData()
     }
     
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
@@ -134,6 +127,15 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         percentage25Label.titleLabel?.font = UIFont(name: AppFonts.poppinsSemiBold, size: 11)
         percentage50Label.titleLabel?.font = UIFont(name: AppFonts.poppinsRegular, size: 11)
         percentage100Label.titleLabel?.font = UIFont(name: AppFonts.poppinsRegular, size: 11)
+        iconBackgroundView.layer.cornerRadius = 6
+        iconBackgroundView.backgroundColor = UIColor(hexString: AppColors.coinIconColor)
+        
+        let coin = object.coinArray[0]
+        updateLabels(name: coin["name"] ?? "",
+                    symbol: coin["symbol"] ?? "",
+                    value: coin["price"] ?? "",
+                    symbolValue: coin["amount"] ?? "",
+                    image: coin["icon"] ?? "")
     }
     
     func updateLabels(name: String, symbol: String, value: String, symbolValue: String, image: String) {
