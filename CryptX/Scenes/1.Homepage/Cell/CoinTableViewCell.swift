@@ -12,14 +12,14 @@ class CoinTableViewCell: UITableViewCell {
     
     static let identifier = "coinCell"
     
-    @IBOutlet weak var coinNameLabel: UILabel!
-    @IBOutlet weak var coinSymbolLabel: UILabel!
+    @IBOutlet private weak var coinNameLabel: UILabel!
+    @IBOutlet private weak var coinSymbolLabel: UILabel!
     
-    @IBOutlet weak var iconBackgroundView: UIView!
-    @IBOutlet weak var coinValueLabel: UILabel!
-    @IBOutlet weak var coinSymbolValueLabel: UILabel!
-    @IBOutlet weak var coinIcon: UIImageView!
-    @IBOutlet weak var graphImageView: UIImageView!
+    @IBOutlet private weak var iconBackgroundView: UIView!
+    @IBOutlet private weak var coinValueLabel: UILabel!
+    @IBOutlet private weak var coinSymbolValueLabel: UILabel!
+    @IBOutlet private weak var coinIcon: UIImageView!
+    @IBOutlet private weak var graphImageView: UIImageView!
 
     public func configureCell(name: String, symbol: String, value: String, symbolValue: String, image: String) {
         coinNameLabel.text = name
@@ -34,7 +34,7 @@ class CoinTableViewCell: UITableViewCell {
         coinSymbolValueLabel.textColor = UIColor(hexString: AppColors.primaryGrey)
         coinIcon.image = UIImage(named: image)
         graphImageView.image = .increaseGraph
+        iconBackgroundView.layer.cornerRadius = 6
+        iconBackgroundView.backgroundColor = UIColor(hexString: AppColors.coinIconColor)
     }
-    
-    
 }

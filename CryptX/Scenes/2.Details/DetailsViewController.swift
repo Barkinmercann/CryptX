@@ -1,6 +1,6 @@
-import UIKit
 import DGCharts
 import TinyConstraints
+import UIKit
 
 class DetailsViewController: UIViewController, ChartViewDelegate {
     
@@ -10,28 +10,28 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         return chartView
     }()
 
-    @IBOutlet weak var iconBackgroundView: UIView!
-    @IBOutlet weak var coinNameLabel: UILabel!
-    @IBOutlet weak var coinSymbolLabel: UILabel!
-    @IBOutlet weak var coinValueLabel: UILabel!
-    @IBOutlet weak var coinSymbolValueLabel: UILabel!
-    @IBOutlet weak var coinIcon: UIImageView!
+    @IBOutlet private weak var iconBackgroundView: UIView!
+    @IBOutlet private weak var coinNameLabel: UILabel!
+    @IBOutlet private weak var coinSymbolLabel: UILabel!
+    @IBOutlet private weak var coinValueLabel: UILabel!
+    @IBOutlet private weak var coinSymbolValueLabel: UILabel!
+    @IBOutlet private weak var coinIcon: UIImageView!
     
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var chartContainerView: UIView!
+    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var chartContainerView: UIView!
     
-    @IBOutlet weak var buyButton: UIButton!
-    @IBOutlet weak var sellButton: UIButton!
+    @IBOutlet private weak var buyButton: UIButton!
+    @IBOutlet private weak var sellButton: UIButton!
     
-    @IBOutlet weak var atPriceLabel: UILabel!
-    @IBOutlet weak var atPriceValueLabel: UILabel!
+    @IBOutlet private weak var atPriceLabel: UILabel!
+    @IBOutlet private weak var atPriceValueLabel: UILabel!
     
-    @IBOutlet weak var amountLabel: UILabel!
-    @IBOutlet weak var amountValueLabel: UILabel!
+    @IBOutlet private weak var amountLabel: UILabel!
+    @IBOutlet private weak var amountValueLabel: UILabel!
     
-    @IBOutlet weak var percentage100Label: UIButton!
-    @IBOutlet weak var percentage50Label: UIButton!
-    @IBOutlet weak var percentage25Label: UIButton!
+    @IBOutlet private weak var percentage100Label: UIButton!
+    @IBOutlet private weak var percentage50Label: UIButton!
+    @IBOutlet private weak var percentage25Label: UIButton!
     
     let object = HomepageViewController()
     var coin: [String: String]?
@@ -89,14 +89,14 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
     }
     
     let yValues: [ChartDataEntry] = [
-        ChartDataEntry(x: 0.0, y: 2500.0),
-        ChartDataEntry(x: 1.0, y: 4000.0),
-        ChartDataEntry(x: 2.0, y: 1500.0),
-        ChartDataEntry(x: 3.0, y: 1000.0),
-        ChartDataEntry(x: 4.0, y: 6000.0),
-        ChartDataEntry(x: 5.0, y: 5000.0),
-        ChartDataEntry(x: 6.0, y: 2000.0),
-        ChartDataEntry(x: 7.0, y: 4500.0),]
+        ChartDataEntry(x: 0.0, y: 2_500),
+        ChartDataEntry(x: 1.0, y: 4_000),
+        ChartDataEntry(x: 2.0, y: 1_500),
+        ChartDataEntry(x: 3.0, y: 1_000),
+        ChartDataEntry(x: 4.0, y: 6_000),
+        ChartDataEntry(x: 5.0, y: 5_000),
+        ChartDataEntry(x: 6.0, y: 2_000),
+        ChartDataEntry(x: 7.0, y: 4_500)]
     
     @IBAction func cellButtonPressed(_ sender: UIButton) {
         let coin = object.coinArray[sender.tag]
@@ -110,7 +110,7 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
     func setupCosmetics() {
         buyButton.setTitle("Buy", for: .normal)
         buyButton.titleLabel?.font = UIFont(name: AppFonts.poppinsRegular, size: 16)
-        buyButton.tintColor = UIColor(hexString:AppColors.primaryPurple)
+        buyButton.tintColor = UIColor(hexString: AppColors.primaryPurple)
         buyButton.layer.cornerRadius = 18
         buyButton.layer.masksToBounds = true
         
@@ -135,8 +135,6 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         percentage50Label.titleLabel?.font = UIFont(name: AppFonts.poppinsRegular, size: 11)
         percentage100Label.titleLabel?.font = UIFont(name: AppFonts.poppinsRegular, size: 11)
     }
-    
-
     
     func updateLabels(name: String, symbol: String, value: String, symbolValue: String, image: String) {
         coinNameLabel.text = name
@@ -164,8 +162,8 @@ extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let collectionCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoinCollectionViewCell.identifier,
                                                                for: indexPath) as? CoinCollectionViewCell else { return UICollectionViewCell() }
-        collectionCell.cellButton.setTitle(object.coinArray[indexPath.row]["symbol"], for: .normal)
-        collectionCell.cellButton.tag = indexPath.row
+
+        collectionCell.configureCell(title: object.coinArray[indexPath.row]["symbol"], tag: indexPath.row)
 
         return collectionCell
     }
@@ -174,4 +172,3 @@ extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataS
         return 1
     }
 }
-

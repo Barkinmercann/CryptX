@@ -21,20 +21,20 @@ class HomepageViewController: UIViewController {
         
     var name = "Barkın"
     
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var greetingTextLabel: UILabel!
-    @IBOutlet weak var settingsButton: UIButton!
-    @IBOutlet weak var gradientImageView: UIImageView!
-    @IBOutlet weak var currentBalanceTextLabel: UILabel!
-    @IBOutlet weak var balanceValueLabel: UILabel!
-    @IBOutlet weak var percentageValueLabel: UILabel!
-    @IBOutlet weak var depositButton: UIButton!
-    @IBOutlet weak var arrowImageView: UIImageView!
-    @IBOutlet weak var withdrawButton: UIButton!
-    @IBOutlet weak var seeAllButton: UIButton!
-    @IBOutlet weak var holdingsTextLabel: UILabel!
+    @IBOutlet private weak var avatarImageView: UIImageView!
+    @IBOutlet private weak var greetingTextLabel: UILabel!
+    @IBOutlet private weak var settingsButton: UIButton!
+    @IBOutlet private weak var gradientImageView: UIImageView!
+    @IBOutlet private weak var currentBalanceTextLabel: UILabel!
+    @IBOutlet private weak var balanceValueLabel: UILabel!
+    @IBOutlet private weak var percentageValueLabel: UILabel!
+    @IBOutlet private weak var depositButton: UIButton!
+    @IBOutlet private weak var arrowImageView: UIImageView!
+    @IBOutlet private weak var withdrawButton: UIButton!
+    @IBOutlet private weak var seeAllButton: UIButton!
+    @IBOutlet private weak var holdingsTextLabel: UILabel!
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,7 +92,7 @@ class HomepageViewController: UIViewController {
         
         depositButton.setTitle("Deposit", for: .normal)
         depositButton.titleLabel?.font = UIFont(name: AppFonts.poppinsRegular, size: 16)
-        depositButton.tintColor = UIColor(hexString:AppColors.primaryPurple)
+        depositButton.tintColor = UIColor(hexString: AppColors.primaryPurple)
         depositButton.layer.cornerRadius = 18
         depositButton.layer.masksToBounds = true
         
@@ -132,8 +132,6 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
         guard let coinCell = tableView.dequeueReusableCell(withIdentifier: CoinTableViewCell.identifier,
                                                                for: indexPath) as? CoinTableViewCell else { return UITableViewCell() }
         
-        coinCell.iconBackgroundView.layer.cornerRadius = 6
-        coinCell.iconBackgroundView.backgroundColor = UIColor(hexString: AppColors.coinIconColor)
         let coin = coinArray[indexPath.row]
                 coinCell.configureCell(
                     name: coin["name"] ?? "",

@@ -23,7 +23,6 @@
 		DA45E6B92C46E09B00599345 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DA45E6B82C46E09B00599345 /* Poppins-Medium.ttf */; };
 		DA45E6BC2C46EA2000599345 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45E6BB2C46EA2000599345 /* AppConstants.swift */; };
 		DA45E6BF2C46EC4500599345 /* HomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45E6BE2C46EC4500599345 /* HomepageViewController.swift */; };
-		DA9188572C4932C900AF6C32 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9188562C4932C900AF6C32 /* TabBarViewController.swift */; };
 		DA91885A2C4946EB00AF6C32 /* CoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9188592C4946EB00AF6C32 /* CoinTableViewCell.swift */; };
 		DAA16BF72C4A827A0096FF9C /* TinyConstraints in Frameworks */ = {isa = PBXBuildFile; productRef = DAA16BF62C4A827A0096FF9C /* TinyConstraints */; };
 		DAA16BFA2C4A84120096FF9C /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = DAA16BF92C4A84120096FF9C /* DGCharts */; };
@@ -62,7 +61,6 @@
 		DA45E6B82C46E09B00599345 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		DA45E6BB2C46EA2000599345 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		DA45E6BE2C46EC4500599345 /* HomepageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewController.swift; sourceTree = "<group>"; };
-		DA9188562C4932C900AF6C32 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		DA9188592C4946EB00AF6C32 /* CoinTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTableViewCell.swift; sourceTree = "<group>"; };
 		DAD20F9A2C4A36B90077AC77 /* CoinCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -133,7 +131,6 @@
 			isa = PBXGroup;
 			children = (
 				DA45E6902C469B9700599345 /* Main.storyboard */,
-				DA9188562C4932C900AF6C32 /* TabBarViewController.swift */,
 				DA45E6A12C469CCE00599345 /* 0.Splash */,
 				DA45E6BD2C46EB6000599345 /* 1.Homepage */,
 				DA25B4962C499DD900A620B5 /* 2.Details */,
@@ -319,7 +316,6 @@
 				DA25B49D2C49A16000A620B5 /* DetailsViewController.swift in Sources */,
 				DA45E68B2C469B9700599345 /* AppDelegate.swift in Sources */,
 				DA91885A2C4946EB00AF6C32 /* CoinTableViewCell.swift in Sources */,
-				DA9188572C4932C900AF6C32 /* TabBarViewController.swift in Sources */,
 				DA45E6BF2C46EC4500599345 /* HomepageViewController.swift in Sources */,
 				DA45E6BC2C46EA2000599345 /* AppConstants.swift in Sources */,
 				DA45E68D2C469B9700599345 /* SceneDelegate.swift in Sources */,

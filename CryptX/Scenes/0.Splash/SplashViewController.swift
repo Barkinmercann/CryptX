@@ -10,18 +10,17 @@ import UIKit
 
 class SplashViewController: UIViewController {
 
-    @IBOutlet weak var header1TextLabel: UILabel!
-    @IBOutlet weak var header2TextLabel: UILabel!
-    @IBOutlet weak var header3TextLabel: UILabel!
-    @IBOutlet weak var splashImageView: UIImageView!
-    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet private weak var header1TextLabel: UILabel!
+    @IBOutlet private weak var header2TextLabel: UILabel!
+    @IBOutlet private weak var header3TextLabel: UILabel!
+    @IBOutlet private weak var splashImageView: UIImageView!
+    @IBOutlet private weak var startButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupCosmetics()
     }
-    
     
     @IBAction func startButtonPressed(_ sender: Any) {
         performSegue(withIdentifier: AppConstants.Segue.enterTheApp, sender: self)
@@ -38,7 +37,8 @@ class SplashViewController: UIViewController {
             let attributedString = NSMutableAttributedString(string: fullText)
             let nsRange = NSRange(location: 5, length: 1)
             attributedString.addAttribute(.foregroundColor,
-                                          value: UIColor(hexString:AppColors.primaryPurple), range: nsRange)
+                                          value: UIColor(hexString: AppColors.primaryPurple),
+                                          range: nsRange)
             header1TextLabel.attributedText = attributedString
         }
         
@@ -50,9 +50,8 @@ class SplashViewController: UIViewController {
         
         startButton.setTitle("Get Started", for: .normal)
         startButton.titleLabel?.font = UIFont(name: AppFonts.poppinsMedium, size: 16)
-        startButton.tintColor = UIColor(hexString:AppColors.primaryPurple)
+        startButton.tintColor = UIColor(hexString: AppColors.primaryPurple)
         startButton.layer.cornerRadius = 16
         startButton.layer.masksToBounds = true
     }
 }
-

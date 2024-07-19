@@ -10,8 +10,13 @@ import UIKit
 
 class CoinCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var cellButton: UIButton!
+    @IBOutlet private weak var cellButton: UIButton!
     
     static let identifier = "collectionCell"
+    
+    public func configureCell(title: String?, tag: Int) {
+        cellButton.setTitle(title, for: .normal)
+        cellButton.tag = tag
+    }
     
 }

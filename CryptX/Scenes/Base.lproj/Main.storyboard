@@ -219,7 +219,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <size key="customSize" width="114" height="39"/>
                                         <connections>
-                                            <outlet property="cellButton" destination="BrS-V3-9RO" id="1HA-SR-EYE"/>
+                                            <outlet property="cellButton" destination="BrS-V3-9RO" id="r8g-HY-xjd"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -326,6 +326,7 @@
                             <constraint firstItem="pOH-nN-4OM" firstAttribute="top" secondItem="ruw-BY-mF9" secondAttribute="bottom" constant="16" id="74O-pv-0MG"/>
                             <constraint firstItem="LWm-Jf-xZm" firstAttribute="top" secondItem="qAS-8u-hse" secondAttribute="bottom" constant="24" id="7VX-eh-PNp"/>
                             <constraint firstItem="pOH-nN-4OM" firstAttribute="trailing" secondItem="Pzl-H3-Sfe" secondAttribute="trailing" id="854-Pc-qVj"/>
+                            <constraint firstItem="0Tx-AJ-RTL" firstAttribute="leading" secondItem="Cg9-Eg-gyT" secondAttribute="leading" constant="24" id="9uV-5g-C4Y"/>
                             <constraint firstItem="qAS-8u-hse" firstAttribute="top" secondItem="Cg9-Eg-gyT" secondAttribute="top" constant="240" id="Ab9-XM-Je2"/>
                             <constraint firstItem="MTj-9X-5Xe" firstAttribute="centerY" secondItem="xcc-a2-S2K" secondAttribute="centerY" id="FUf-Wm-YbD"/>
                             <constraint firstItem="ruw-BY-mF9" firstAttribute="top" secondItem="yRD-f8-aY0" secondAttribute="bottom" constant="6" id="FyM-Tx-5tG"/>
