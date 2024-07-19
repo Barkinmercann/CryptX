@@ -1,0 +1,37 @@
+disabled_rules:
+  - file_length
+  - type_body_length
+  - cyclomatic_complexity
+  - nesting
+  - trailing_whitespace
+
+opt_in_rules:
+  - overridden_super_call
+  - redundant_nil_coalescing
+  - private_outlet
+  - operator_usage_whitespace
+  - first_where
+  - number_separator
+  - prohibited_super_call
+  - fatal_error_message
+  - sorted_imports
+  - closure_spacing
+  - object_literal
+  - attributes
+  - toggle_bool
+  - collection_alignment
+
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+ - Pods
+
+line_length: 350
+function_parameter_count: 13
+
+function_body_length:
+  warning: 120
+
+type_name:
+  allowed_symbols: "_"
+  
+identifier_name:
+     allowed_symbols: "_"
