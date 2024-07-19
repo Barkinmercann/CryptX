@@ -1,6 +1,14 @@
 import UIKit
+import Charts
+import TinyConstraints
 
-class DetailsViewController: UIViewController {
+class DetailsViewController: UIViewController, ChartViewDelegate {
+    
+    lazy var lineChartView: LineChartView = {
+        let chartView = LineChartView()
+        chartView.backgroundColor = .black
+        return chartView
+    }()
 
     @IBOutlet weak var iconBackgroundView: UIView!
     @IBOutlet weak var coinNameLabel: UILabel!
@@ -9,101 +17,126 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var coinSymbolValueLabel: UILabel!
     @IBOutlet weak var coinIcon: UIImageView!
     
-    let scrollView = UIScrollView()
-    let containerView = UIView()
-    let stackView = UIStackView()
-
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var chartContainerView: UIView!
+    
+    @IBOutlet weak var buyButton: UIButton!
+    @IBOutlet weak var sellButton: UIButton!
+    
+    @IBOutlet weak var atPriceLabel: UILabel!
+    @IBOutlet weak var atPriceValueLabel: UILabel!
+    
+    @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var amountValueLabel: UILabel!
+    
+    @IBOutlet weak var percentage100Label: UIButton!
+    @IBOutlet weak var percentage50Label: UIButton!
+    @IBOutlet weak var percentage25Label: UIButton!
+    
     let object = HomepageViewController()
     var coin: [String: String]?
         
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupScrollView()
-        setupContainerView()
-        setupStackView()
-        addButtonsToStackView(count: object.coinArray.count)
-        if let coin = coin {
-                    coinNameLabel.text = coin["name"]
-                    coinSymbolLabel.text = coin["symbol"]
-                    coinValueLabel.text = coin["price"]
-                    coinSymbolValueLabel.text = coin["amount"]
-                    if let iconName = coin["icon"] {
-                        coinIcon.image = UIImage(named: iconName)
-                    }
-                }
-    }
-    
-    func setupScrollView() {
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.backgroundColor = .lightGray
-        view.addSubview(scrollView)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.reloadData()
         
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.heightAnchor.constraint(equalToConstant: 40)
-        ])
-    }
-    
-    func setupContainerView() {
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = .black
-        scrollView.addSubview(containerView)
+        let coin = object.coinArray[0]
+        updateLabels(name: coin["name"] ?? "",
+                    symbol: coin["symbol"] ?? "",
+                    value: coin["price"] ?? "",
+                    symbolValue: coin["amount"] ?? "",
+                    image: coin["icon"] ?? "")
         
-        NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            containerView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
-        ])
-    }
-    
-    func setupStackView() {
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = 28
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 28, bottom: 0, right: 0)
-        stackView.isLayoutMarginsRelativeArrangement = true
-        containerView.addSubview(stackView)
+        chartContainerView.addSubview(lineChartView)
+        lineChartView.width(to: chartContainerView)
+        lineChartView.height(to: chartContainerView)
         
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            stackView.heightAnchor.constraint(equalTo: containerView.heightAnchor)
-        ])
+        setupCosmetics()
+        setData()
     }
     
-    func addButtonsToStackView(count: Int) {
-        for i in 0..<count {
-            if let coin = self.coin {
-                let button = UIButton(type: .system)
-                button.setTitle(coin["name"], for: .normal)
-                button.backgroundColor = .black
-                button.setTitleColor(.white, for: .normal)
-                button.translatesAutoresizingMaskIntoConstraints = false
-                button.widthAnchor.constraint(equalToConstant: 40).isActive = true
-                button.heightAnchor.constraint(equalToConstant: 20).isActive = true
-                button.tag = i
-                button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-                stackView.addArrangedSubview(button)
-            }
-        }
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        print(entry)
+    }
+    
+    func setData() {
+        let set1 = LineChartDataSet(entries: yValues)
         
-        if let lastButton = stackView.arrangedSubviews.last {
-            scrollView.trailingAnchor.constraint(equalTo: lastButton.trailingAnchor).isActive = true
-        }
+        set1.drawCirclesEnabled = false
+        set1.mode = .cubicBezier
+        set1.setColor(UIColor(hexString: AppColors.primaryPurple))
+        
+        let data = LineChartData(dataSet: set1)
+        data.setDrawValues(false)
+        lineChartView.data = data
+        
+        lineChartView.xAxis.drawGridLinesEnabled = false
+        lineChartView.leftAxis.drawGridLinesEnabled = false
+        lineChartView.rightAxis.drawGridLinesEnabled = false
+        
+        lineChartView.xAxis.drawLabelsEnabled = false
+        lineChartView.leftAxis.drawLabelsEnabled = false
+        lineChartView.rightAxis.drawLabelsEnabled = false
+        
+        lineChartView.leftAxis.enabled = false
+        lineChartView.rightAxis.enabled = false
+        lineChartView.xAxis.enabled = false
+        
+        lineChartView.legend.enabled = false
     }
     
-    @objc func buttonTapped(_ sender: UIButton) {
-        self.coin = object.coinArray[sender.tag]
-        updateLabels(name: coin?["name"] ?? "", symbol: coin?["symbol"] ?? "", value: coin?["price"] ?? "", symbolValue: coin?["amount"] ?? "", image: coin?["icon"] ?? "")
+    let yValues: [ChartDataEntry] = [
+        ChartDataEntry(x: 0.0, y: 2500.0),
+        ChartDataEntry(x: 1.0, y: 4000.0),
+        ChartDataEntry(x: 2.0, y: 1500.0),
+        ChartDataEntry(x: 3.0, y: 1000.0),
+        ChartDataEntry(x: 4.0, y: 6000.0),
+        ChartDataEntry(x: 5.0, y: 5000.0),
+        ChartDataEntry(x: 6.0, y: 2000.0),
+        ChartDataEntry(x: 7.0, y: 4500.0),]
+    
+    @IBAction func cellButtonPressed(_ sender: UIButton) {
+        let coin = object.coinArray[sender.tag]
+        updateLabels(name: coin["name"] ?? "",
+                    symbol: coin["symbol"] ?? "",
+                    value: coin["price"] ?? "",
+                    symbolValue: coin["amount"] ?? "",
+                    image: coin["icon"] ?? "")
     }
+    
+    func setupCosmetics() {
+        buyButton.setTitle("Buy", for: .normal)
+        buyButton.titleLabel?.font = UIFont(name: AppFonts.poppinsRegular, size: 16)
+        buyButton.tintColor = UIColor(hexString:AppColors.primaryPurple)
+        buyButton.layer.cornerRadius = 18
+        buyButton.layer.masksToBounds = true
+        
+        sellButton.setTitle("Sell", for: .normal)
+        sellButton.titleLabel?.font = UIFont(name: AppFonts.poppinsRegular, size: 16)
+        sellButton.layer.cornerRadius = 18
+        sellButton.layer.borderWidth = 1.0
+        sellButton.layer.borderColor = UIColor.white.cgColor
+        sellButton.layer.masksToBounds = true
+        
+        atPriceLabel.font = UIFont(name: AppFonts.poppinsRegular, size: 15)
+        atPriceLabel.textColor = UIColor(hexString: "#B9C1D9")
+        
+        atPriceValueLabel.font = UIFont(name: AppFonts.poppinsRegular, size: 18)
+        
+        amountLabel.font = UIFont(name: AppFonts.poppinsRegular, size: 15)
+        amountLabel.textColor = UIColor(hexString: "#B9C1D9")
+
+        amountValueLabel.font = UIFont(name: AppFonts.poppinsRegular, size: 18)
+        
+        percentage25Label.titleLabel?.font = UIFont(name: AppFonts.poppinsSemiBold, size: 11)
+        percentage50Label.titleLabel?.font = UIFont(name: AppFonts.poppinsRegular, size: 11)
+        percentage100Label.titleLabel?.font = UIFont(name: AppFonts.poppinsRegular, size: 11)
+    }
+    
+
     
     func updateLabels(name: String, symbol: String, value: String, symbolValue: String, image: String) {
         coinNameLabel.text = name
@@ -117,5 +150,28 @@ class DetailsViewController: UIViewController {
         coinSymbolValueLabel.font = UIFont(name: AppFonts.poppinsBold, size: 10)
         coinSymbolValueLabel.textColor = UIColor(hexString: AppColors.primaryGrey)
         coinIcon.image = UIImage(named: image)
+        atPriceValueLabel.text = symbolValue
+        amountValueLabel.text = value
     }
 }
+
+extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 6
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let collectionCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoinCollectionViewCell.identifier,
+                                                               for: indexPath) as? CoinCollectionViewCell else { return UICollectionViewCell() }
+        collectionCell.cellButton.setTitle(object.coinArray[indexPath.row]["symbol"], for: .normal)
+        collectionCell.cellButton.tag = indexPath.row
+
+        return collectionCell
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+}
+

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B9031705F5EF4ED37714549 /* Pods_CryptX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FCE7DF701B9DC7455557B2D /* Pods_CryptX.framework */; };
 		DA25B49D2C49A16000A620B5 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA25B49C2C49A16000A620B5 /* DetailsViewController.swift */; };
 		DA45E68B2C469B9700599345 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45E68A2C469B9700599345 /* AppDelegate.swift */; };
 		DA45E68D2C469B9700599345 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45E68C2C469B9700599345 /* SceneDelegate.swift */; };
@@ -25,9 +26,13 @@
 		DA45E6BF2C46EC4500599345 /* HomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45E6BE2C46EC4500599345 /* HomepageViewController.swift */; };
 		DA9188572C4932C900AF6C32 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9188562C4932C900AF6C32 /* TabBarViewController.swift */; };
 		DA91885A2C4946EB00AF6C32 /* CoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9188592C4946EB00AF6C32 /* CoinTableViewCell.swift */; };
+		DAD20F9B2C4A36B90077AC77 /* CoinCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD20F9A2C4A36B90077AC77 /* CoinCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1FCE7DF701B9DC7455557B2D /* Pods_CryptX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FBD2F2F334E8B476F2FE753 /* Pods-CryptX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptX.release.xcconfig"; path = "Target Support Files/Pods-CryptX/Pods-CryptX.release.xcconfig"; sourceTree = "<group>"; };
+		8D96A0D63373644E51059A4B /* Pods-CryptX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptX.debug.xcconfig"; path = "Target Support Files/Pods-CryptX/Pods-CryptX.debug.xcconfig"; sourceTree = "<group>"; };
 		DA25B49C2C49A16000A620B5 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		DA45E6872C469B9700599345 /* CryptX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA45E68A2C469B9700599345 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -48,6 +53,7 @@
 		DA45E6BE2C46EC4500599345 /* HomepageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewController.swift; sourceTree = "<group>"; };
 		DA9188562C4932C900AF6C32 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		DA9188592C4946EB00AF6C32 /* CoinTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTableViewCell.swift; sourceTree = "<group>"; };
+		DAD20F9A2C4A36B90077AC77 /* CoinCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,15 +61,34 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B9031705F5EF4ED37714549 /* Pods_CryptX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		933A9A405132B4D5A4E911AA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8D96A0D63373644E51059A4B /* Pods-CryptX.debug.xcconfig */,
+				4FBD2F2F334E8B476F2FE753 /* Pods-CryptX.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		CCC01821AB7C07008147FE5C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1FCE7DF701B9DC7455557B2D /* Pods_CryptX.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DA25B4962C499DD900A620B5 /* 2.Details */ = {
 			isa = PBXGroup;
 			children = (
+				DAD20F992C4A36A90077AC77 /* Cell */,
 				DA25B49C2C49A16000A620B5 /* DetailsViewController.swift */,
 			);
 			path = 2.Details;
@@ -74,6 +99,8 @@
 			children = (
 				DA45E6892C469B9700599345 /* CryptX */,
 				DA45E6882C469B9700599345 /* Products */,
+				933A9A405132B4D5A4E911AA /* Pods */,
+				CCC01821AB7C07008147FE5C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -191,6 +218,14 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		DAD20F992C4A36A90077AC77 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				DAD20F9A2C4A36B90077AC77 /* CoinCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -198,9 +233,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA45E69B2C469B9900599345 /* Build configuration list for PBXNativeTarget "CryptX" */;
 			buildPhases = (
+				35ABAC54EBF8CC41739D440B /* [CP] Check Pods Manifest.lock */,
 				DA45E6832C469B9700599345 /* Sources */,
 				DA45E6842C469B9700599345 /* Frameworks */,
 				DA45E6852C469B9700599345 /* Resources */,
+				F2D4845D9A603C17A6D70879 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -261,6 +298,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		35ABAC54EBF8CC41739D440B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CryptX-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F2D4845D9A603C17A6D70879 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CryptX/Pods-CryptX-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CryptX/Pods-CryptX-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CryptX/Pods-CryptX-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		DA45E6832C469B9700599345 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -277,6 +356,7 @@
 				DA45E6BC2C46EA2000599345 /* AppConstants.swift in Sources */,
 				DA45E68D2C469B9700599345 /* SceneDelegate.swift in Sources */,
 				DA45E6A72C46BA4100599345 /* ColorExtension.swift in Sources */,
+				DAD20F9B2C4A36B90077AC77 /* CoinCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,12 +503,14 @@
 		};
 		DA45E69C2C469B9900599345 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8D96A0D63373644E51059A4B /* Pods-CryptX.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QP4396NN77;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CryptX/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -456,12 +538,14 @@
 		};
 		DA45E69D2C469B9900599345 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4FBD2F2F334E8B476F2FE753 /* Pods-CryptX.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QP4396NN77;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CryptX/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
