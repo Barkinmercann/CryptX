@@ -33,11 +33,13 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
     @IBOutlet private weak var percentage50Label: UIButton!
     @IBOutlet private weak var percentage25Label: UIButton!
     
-    let object = HomepageViewController()
-    var coin: [String: String]?
+    let homepageObject = HomepageViewController()
+    var coin: [[String: String]] = []
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.coin = homepageObject.coinArray
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -46,9 +48,26 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         lineChartView.width(to: chartContainerView)
         lineChartView.height(to: chartContainerView)
         
+        let startCoin = homepageObject.coinArray[0]
+        updateLabels(name: startCoin["name"] ?? "",
+                    symbol: startCoin["symbol"] ?? "",
+                    value: startCoin["price"] ?? "",
+                    symbolValue: startCoin["amount"] ?? "",
+                    image: startCoin["icon"] ?? "")
+        
         setupCosmetics()
         setData()
         collectionView.reloadData()
+    }
+    
+    @IBAction func settingsButtonPressed(_ sender: Any) {
+        performSegue(withIdentifier: AppConstants.Segue.detailsToSettings, sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationVC = segue.destination as? SettingsViewController {
+            destinationVC.setCoins(homepageObject.coinArray)
+        }
     }
     
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
@@ -92,12 +111,12 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         ChartDataEntry(x: 7.0, y: 4_500)]
     
     @IBAction func cellButtonPressed(_ sender: UIButton) {
-        let coin = object.coinArray[sender.tag]
-        updateLabels(name: coin["name"] ?? "",
-                    symbol: coin["symbol"] ?? "",
-                    value: coin["price"] ?? "",
-                    symbolValue: coin["amount"] ?? "",
-                    image: coin["icon"] ?? "")
+        let parameter = self.coin[sender.tag]
+        updateLabels(name: parameter["name"] ?? "",
+                    symbol: parameter["symbol"] ?? "",
+                    value: parameter["price"] ?? "",
+                    symbolValue: parameter["amount"] ?? "",
+                    image: parameter["icon"] ?? "")
     }
     
     func setupCosmetics() {
@@ -129,13 +148,6 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         percentage100Label.titleLabel?.font = UIFont(name: AppFonts.poppinsRegular, size: 11)
         iconBackgroundView.layer.cornerRadius = 6
         iconBackgroundView.backgroundColor = UIColor(hexString: AppColors.coinIconColor)
-        
-        let coin = object.coinArray[0]
-        updateLabels(name: coin["name"] ?? "",
-                    symbol: coin["symbol"] ?? "",
-                    value: coin["price"] ?? "",
-                    symbolValue: coin["amount"] ?? "",
-                    image: coin["icon"] ?? "")
     }
     
     func updateLabels(name: String, symbol: String, value: String, symbolValue: String, image: String) {
@@ -158,14 +170,15 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
 extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return homepageObject.coinArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let collectionCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoinCollectionViewCell.identifier,
                                                                for: indexPath) as? CoinCollectionViewCell else { return UICollectionViewCell() }
 
-        collectionCell.configureCell(title: object.coinArray[indexPath.row]["symbol"], tag: indexPath.row)
+        collectionCell.configureCell(title: homepageObject.coinArray[indexPath.row]["symbol"],
+                                     tag: indexPath.row)
 
         return collectionCell
     }

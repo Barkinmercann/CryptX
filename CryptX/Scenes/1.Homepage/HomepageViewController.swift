@@ -11,15 +11,18 @@ import UIKit
 class HomepageViewController: UIViewController {
     
     var coinArray = [
-            ["name": "Ethereum", "symbol": "ETH", "price": "$503.12", "amount": "50 ETH", "icon": "ethereum-icon"],
-            ["name": "Bitcoin", "symbol": "BTC", "price": "$26927", "amount": "2.05 BTC", "icon": "btc-icon"],
-            ["name": "Litecoin", "symbol": "LTC", "price": "$6927", "amount": "2.05 LTC", "icon": "litecoin-icon"],
-            ["name": "Ripple", "symbol": "XRP", "price": "$4637", "amount": "2.05 XRP", "icon": "xrp-icon"],
-            ["name": "XCoin", "symbol": "XC", "price": "$1000", "amount": "2.05 XCO", "icon": "xrp-icon"],
-            ["name": "ZCoin", "symbol": "ZC", "price": "$3000", "amount": "2.05 ZCO", "icon": "xrp-icon"]
-        ]
-        
-    var name = "Barkın"
+        ["name": "Ethereum", "symbol": "ETH", "price": "$503.12", "amount": "50 ETH", "icon": "ethereum-icon"],
+        ["name": "Bitcoin", "symbol": "BTC", "price": "$26927", "amount": "2.05 BTC", "icon": "btc-icon"],
+        ["name": "Litecoin", "symbol": "LTC", "price": "$6927", "amount": "2.05 LTC", "icon": "litecoin-icon"],
+        ["name": "Ripple", "symbol": "XRP", "price": "$4637", "amount": "2.05 XRP", "icon": "xrp-icon"],
+        ["name": "XCoin", "symbol": "XC", "price": "$1000", "amount": "2.05 XCO", "icon": "xrp-icon"],
+        ["name": "ZCoin", "symbol": "ZC", "price": "$3000", "amount": "2.05 ZCO", "icon": "xrp-icon"],
+        ["name": "Cardano", "symbol": "ADA", "price": "$1.20", "amount": "500 ADA", "icon": "xrp-icon"],
+        ["name": "Polkadot", "symbol": "DOT", "price": "$14.50", "amount": "100 DOT", "icon": "xrp-icon"],
+        ["name": "Chainlink", "symbol": "LINK", "price": "$23.45", "amount": "200 LINK", "icon": "xrp-icon"],
+        ["name": "Stellar", "symbol": "XLM", "price": "$0.25", "amount": "1000 XLM", "icon": "xrp-icon"],
+        ["name": "Monero", "symbol": "XMR", "price": "$234.56", "amount": "10 XMR", "icon": "xrp-icon"],
+        ["name": "Dash", "symbol": "DASH", "price": "$150.67", "amount": "20 DASH", "icon": "xrp-icon"]]
     
     @IBOutlet private weak var avatarImageView: UIImageView!
     @IBOutlet private weak var greetingTextLabel: UILabel!
@@ -39,9 +42,6 @@ class HomepageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        avatarImageView.image = .avatarIcon
-        avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2
-        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
@@ -56,9 +56,21 @@ class HomepageViewController: UIViewController {
         self.tableView.reloadData()
     }
 
+    @IBAction func settingsButtonPressed(_ sender: Any) {
+        performSegue(withIdentifier: AppConstants.Segue.homepageToSettings, sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationVC = segue.destination as? SettingsViewController {
+            destinationVC.setCoins(coinArray)
+        }
+    }
+    
     func setupCosmetics() {
+        avatarImageView.image = .avatarIcon
+        avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2
         
-        let text = "Hello \(name)"
+        let text = "Hello Barkın"
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttribute(.font, value: UIFont(name: AppFonts.poppinsRegular, size: 24)!,
                                       range: NSRange(location: 0, length: 5))
@@ -119,7 +131,7 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return coinArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -138,7 +150,8 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 82       }
+        return 82
+    }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 32

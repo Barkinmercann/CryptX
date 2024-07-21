@@ -16,5 +16,9 @@ extension AppConstants {
     struct Segue {
         
         static let enterTheApp = "enterTheApp"
+        
+        static let homepageToSettings = "homepageToSettings"
+        
+        static let detailsToSettings = "detailsToSettings"
     }
 }
