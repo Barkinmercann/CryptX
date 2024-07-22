@@ -10,20 +10,6 @@ import UIKit
 
 class HomepageViewController: UIViewController {
     
-    var coinArray = [
-        ["name": "Ethereum", "symbol": "ETH", "price": "$503.12", "amount": "50 ETH", "icon": "ethereum-icon"],
-        ["name": "Bitcoin", "symbol": "BTC", "price": "$26927", "amount": "2.05 BTC", "icon": "btc-icon"],
-        ["name": "Litecoin", "symbol": "LTC", "price": "$6927", "amount": "2.05 LTC", "icon": "litecoin-icon"],
-        ["name": "Ripple", "symbol": "XRP", "price": "$4637", "amount": "2.05 XRP", "icon": "xrp-icon"],
-        ["name": "XCoin", "symbol": "XC", "price": "$1000", "amount": "2.05 XCO", "icon": "xrp-icon"],
-        ["name": "ZCoin", "symbol": "ZC", "price": "$3000", "amount": "2.05 ZCO", "icon": "xrp-icon"],
-        ["name": "Cardano", "symbol": "ADA", "price": "$1.20", "amount": "500 ADA", "icon": "xrp-icon"],
-        ["name": "Polkadot", "symbol": "DOT", "price": "$14.50", "amount": "100 DOT", "icon": "xrp-icon"],
-        ["name": "Chainlink", "symbol": "LINK", "price": "$23.45", "amount": "200 LINK", "icon": "xrp-icon"],
-        ["name": "Stellar", "symbol": "XLM", "price": "$0.25", "amount": "1000 XLM", "icon": "xrp-icon"],
-        ["name": "Monero", "symbol": "XMR", "price": "$234.56", "amount": "10 XMR", "icon": "xrp-icon"],
-        ["name": "Dash", "symbol": "DASH", "price": "$150.67", "amount": "20 DASH", "icon": "xrp-icon"]]
-    
     @IBOutlet private weak var avatarImageView: UIImageView!
     @IBOutlet private weak var greetingTextLabel: UILabel!
     @IBOutlet private weak var settingsButton: UIButton!
@@ -48,6 +34,15 @@ class HomepageViewController: UIViewController {
         
         setupCosmetics()
         
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("displayedArrayChanged"), object: nil, queue: .init()) { _ in
+                self.displayedArrayChanged()
+            }
+    }
+    
+    func displayedArrayChanged() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,12 +53,6 @@ class HomepageViewController: UIViewController {
 
     @IBAction func settingsButtonPressed(_ sender: Any) {
         performSegue(withIdentifier: AppConstants.Segue.homepageToSettings, sender: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationVC = segue.destination as? SettingsViewController {
-            destinationVC.setCoins(coinArray)
-        }
     }
     
     func setupCosmetics() {
@@ -131,14 +120,14 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return coinArray.count
+        return SettingsManager.shared.displayedArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let coinCell = tableView.dequeueReusableCell(withIdentifier: CoinTableViewCell.identifier,
                                                                for: indexPath) as? CoinTableViewCell else { return UITableViewCell() }
         
-        let coin = coinArray[indexPath.row]
+        let coin = SettingsManager.shared.displayedArray[indexPath.row]
         coinCell.configureCell(
             name: coin["name"] ?? "",
             symbol: coin["symbol"] ?? "",

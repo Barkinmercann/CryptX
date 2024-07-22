@@ -32,12 +32,15 @@ class SettingsViewController: UIViewController {
     func setCoins(_ coins: [[String: String]]) {
         self.coinArray = coins
     }
+    @IBAction func saveButtonPressed(_ sender: Any) {
+        NotificationCenter.default.post(name: NSNotification.Name("displayedArrayChanged"), object: nil)
+    }
 }
 
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return coinArray.count
+        return SettingsManager.shared.settingsArray.count
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -47,13 +50,15 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         guard let settingsCell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.identifier,
                                                                for: indexPath) as? SettingsTableViewCell else { return UITableViewCell() }
 
-        let coin = coinArray[indexPath.row]
-        
-        settingsCell.configureCell(name: coin["name"] ?? "Coin",
-                                   image: coin["icon"] ?? "",
-                                   switchTag: indexPath.row)
+        let coin = SettingsManager.shared.settingsArray[indexPath.row]
+                
+                settingsCell.configureCell(name: coin["name"] ?? "Coin",
+                                           image: coin["icon"] ?? "",
+                                           switchTag: indexPath.row,
+                                           isOn: SettingsManager.shared.isCoinDisplayed(coin))
         
         return settingsCell
+
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

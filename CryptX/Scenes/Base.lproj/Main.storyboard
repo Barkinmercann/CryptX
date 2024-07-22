@@ -758,6 +758,9 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Otq-b2-d5c">
                                                     <rect key="frame" x="355" y="6.3333333333333321" width="51" height="30.999999999999996"/>
                                                     <color key="onTintColor" red="0.396078431372549" green="0.32156862745098036" blue="0.99607843137254903" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <connections>
+                                                        <action selector="switchButtonTapped:" destination="4QM-jt-cjW" eventType="touchUpInside" id="IKF-Mv-TNp"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -780,27 +783,46 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IQx-am-sJT">
-                                <rect key="frame" x="24" y="836" width="380" height="50"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dzp-WB-tzO">
+                                <rect key="frame" x="24" y="836" width="178" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="dpy-9k-iZE"/>
+                                    <constraint firstAttribute="width" constant="178" id="vns-K2-xaC"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Save">
-                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="baseBackgroundColor" red="0.396078431372549" green="0.32156862745098036" blue="0.99607843137254903" alpha="1" colorSpace="calibratedRGB"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="saveButtonPressed:" destination="X5S-ma-H7e" eventType="touchUpInside" id="suY-F7-lNT"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T98-s2-GVz">
+                                <rect key="frame" x="226" y="836" width="178" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="178" id="YTh-1Q-OSx"/>
+                                    <constraint firstAttribute="height" constant="50" id="ywZ-go-w2H"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Reset">
+                                    <color key="baseBackgroundColor" systemColor="systemRedColor"/>
                                 </buttonConfiguration>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Htd-KC-b4j"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="IQx-am-sJT" firstAttribute="centerX" secondItem="Arg-Tp-nH6" secondAttribute="centerX" id="AaO-EH-TQH"/>
-                            <constraint firstItem="Htd-KC-b4j" firstAttribute="bottom" secondItem="IQx-am-sJT" secondAttribute="bottom" constant="30" id="GAl-pA-0Du"/>
+                            <constraint firstItem="Htd-KC-b4j" firstAttribute="bottom" secondItem="Dzp-WB-tzO" secondAttribute="bottom" constant="30" id="2Dl-bZ-9qu"/>
+                            <constraint firstItem="T98-s2-GVz" firstAttribute="top" secondItem="Arg-Tp-nH6" secondAttribute="bottom" constant="20" id="4fC-JK-xhZ"/>
+                            <constraint firstItem="T98-s2-GVz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Dzp-WB-tzO" secondAttribute="trailing" constant="20" id="Icq-P7-Z0P"/>
                             <constraint firstItem="Arg-Tp-nH6" firstAttribute="top" secondItem="Htd-KC-b4j" secondAttribute="top" id="KCM-qW-FLY"/>
+                            <constraint firstItem="Htd-KC-b4j" firstAttribute="trailing" secondItem="T98-s2-GVz" secondAttribute="trailing" constant="24" id="L1R-Mw-pxD"/>
                             <constraint firstItem="Htd-KC-b4j" firstAttribute="bottom" secondItem="Arg-Tp-nH6" secondAttribute="bottom" constant="100" id="OEt-ia-x2E"/>
-                            <constraint firstItem="IQx-am-sJT" firstAttribute="top" secondItem="Arg-Tp-nH6" secondAttribute="bottom" constant="20" id="UGA-aF-4lE"/>
                             <constraint firstItem="Arg-Tp-nH6" firstAttribute="leading" secondItem="Htd-KC-b4j" secondAttribute="leading" id="XcC-HN-Vxy"/>
+                            <constraint firstItem="Dzp-WB-tzO" firstAttribute="top" secondItem="Arg-Tp-nH6" secondAttribute="bottom" constant="20" id="XzZ-Qa-M1w"/>
                             <constraint firstItem="Htd-KC-b4j" firstAttribute="trailing" secondItem="Arg-Tp-nH6" secondAttribute="trailing" id="Ydo-Qf-7Ti"/>
-                            <constraint firstItem="IQx-am-sJT" firstAttribute="leading" secondItem="Htd-KC-b4j" secondAttribute="leading" constant="24" id="mJ0-ps-8Pb"/>
-                            <constraint firstItem="Htd-KC-b4j" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="IQx-am-sJT" secondAttribute="trailing" constant="24" id="o0o-3A-tSO"/>
+                            <constraint firstItem="Htd-KC-b4j" firstAttribute="bottom" secondItem="T98-s2-GVz" secondAttribute="bottom" constant="30" id="fD8-MN-Hxc"/>
+                            <constraint firstItem="Dzp-WB-tzO" firstAttribute="leading" secondItem="Htd-KC-b4j" secondAttribute="leading" constant="24" id="mRX-hD-k4t"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cjW-MY-TAJ"/>
@@ -814,7 +836,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="8iV-gG-OeP"/>
+        <segue reference="roF-zM-PCL"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="dashboard-purple-icon" width="24" height="24"/>
@@ -829,6 +851,9 @@
         </systemColor>
         <systemColor name="systemIndigoColor">
             <color red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -33,13 +33,12 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
     @IBOutlet private weak var percentage50Label: UIButton!
     @IBOutlet private weak var percentage25Label: UIButton!
     
-    let homepageObject = HomepageViewController()
     var coin: [[String: String]] = []
         
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.coin = homepageObject.coinArray
+        self.coin = SettingsManager.shared.displayedArray
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -48,7 +47,7 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         lineChartView.width(to: chartContainerView)
         lineChartView.height(to: chartContainerView)
         
-        let startCoin = homepageObject.coinArray[0]
+        let startCoin = SettingsManager.shared.displayedArray[0]
         updateLabels(name: startCoin["name"] ?? "",
                     symbol: startCoin["symbol"] ?? "",
                     value: startCoin["price"] ?? "",
@@ -58,16 +57,20 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         setupCosmetics()
         setData()
         collectionView.reloadData()
+    
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("displayedArrayChanged"), object: nil, queue: .init()) { _ in
+                self.displayedArrayChanged()
+        }
+    }
+    
+    func displayedArrayChanged() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
     
     @IBAction func settingsButtonPressed(_ sender: Any) {
         performSegue(withIdentifier: AppConstants.Segue.detailsToSettings, sender: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationVC = segue.destination as? SettingsViewController {
-            destinationVC.setCoins(homepageObject.coinArray)
-        }
     }
     
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
@@ -170,14 +173,14 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
 extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return homepageObject.coinArray.count
+        return SettingsManager.shared.displayedArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let collectionCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoinCollectionViewCell.identifier,
                                                                for: indexPath) as? CoinCollectionViewCell else { return UICollectionViewCell() }
 
-        collectionCell.configureCell(title: homepageObject.coinArray[indexPath.row]["symbol"],
+        collectionCell.configureCell(title: SettingsManager.shared.displayedArray[indexPath.row]["symbol"],
                                      tag: indexPath.row)
 
         return collectionCell

@@ -28,6 +28,7 @@
 		DAA16BFA2C4A84120096FF9C /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = DAA16BF92C4A84120096FF9C /* DGCharts */; };
 		DAA5A21A2C4BC5EE0051FE1F /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA5A2192C4BC5EE0051FE1F /* SettingsTableViewCell.swift */; };
 		DAA5A21C2C4BCBEE0051FE1F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA5A21B2C4BCBEE0051FE1F /* SettingsViewController.swift */; };
+		DAC6E16B2C4DAB1700BF58BC /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6E16A2C4DAB1600BF58BC /* SettingsManager.swift */; };
 		DAD20F9B2C4A36B90077AC77 /* CoinCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD20F9A2C4A36B90077AC77 /* CoinCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		DA9188592C4946EB00AF6C32 /* CoinTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTableViewCell.swift; sourceTree = "<group>"; };
 		DAA5A2192C4BC5EE0051FE1F /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		DAA5A21B2C4BCBEE0051FE1F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		DAC6E16A2C4DAB1600BF58BC /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		DAD20F9A2C4A36B90077AC77 /* CoinCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,6 +129,7 @@
 				DA45E68A2C469B9700599345 /* AppDelegate.swift */,
 				DA45E68C2C469B9700599345 /* SceneDelegate.swift */,
 				DA45E6952C469B9900599345 /* LaunchScreen.storyboard */,
+				DAC6E16A2C4DAB1600BF58BC /* SettingsManager.swift */,
 			);
 			path = ApplicationLifeCycle;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				DA91885A2C4946EB00AF6C32 /* CoinTableViewCell.swift in Sources */,
 				DA45E6BF2C46EC4500599345 /* HomepageViewController.swift in Sources */,
 				DA45E6BC2C46EA2000599345 /* AppConstants.swift in Sources */,
+				DAC6E16B2C4DAB1700BF58BC /* SettingsManager.swift in Sources */,
 				DA45E68D2C469B9700599345 /* SceneDelegate.swift in Sources */,
 				DA45E6A72C46BA4100599345 /* ColorExtension.swift in Sources */,
 				DAD20F9B2C4A36B90077AC77 /* CoinCollectionViewCell.swift in Sources */,
