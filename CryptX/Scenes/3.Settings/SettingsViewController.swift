@@ -32,7 +32,10 @@ class SettingsViewController: UIViewController {
     func setCoins(_ coins: [[String: String]]) {
         self.coinArray = coins
     }
-    @IBAction func saveButtonPressed(_ sender: Any) {
+
+    @IBAction func resetButtonPressed(_ sender: Any) {
+        self.tableView.reloadData()
+        SettingsManager.shared.resetDefaults()
         NotificationCenter.default.post(name: NSNotification.Name("displayedArrayChanged"), object: nil)
     }
 }

@@ -1,3 +1,10 @@
+//
+//  DetailsViewController.swift
+//  CryptX
+//
+//  Created by Mehmet Barkın Mercan on 19.07.2024.
+//
+
 import DGCharts
 import TinyConstraints
 import UIKit
@@ -42,10 +49,6 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         
         collectionView.delegate = self
         collectionView.dataSource = self
-                    
-        chartContainerView.addSubview(lineChartView)
-        lineChartView.width(to: chartContainerView)
-        lineChartView.height(to: chartContainerView)
         
         if let startCoin = SettingsManager.shared.displayedArray.first {
             updateLabels(name: startCoin["name"] ?? "",
@@ -56,7 +59,7 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         }
         
         setupCosmetics()
-        setData()
+        setData(for: SettingsManager.shared.displayedArray.first)
         collectionView.reloadData()
     
         NotificationCenter.default.addObserver(forName: NSNotification.Name("displayedArrayChanged"), object: nil, queue: .init()) { _ in
@@ -78,11 +81,16 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         print(entry)
     }
     
-    func setData() {
+    func setData(for coin: [String: String]?) {
+        
+        let yValues = (0..<30).map { iterator -> ChartDataEntry in
+            let yValue = Double.random(in: 1_000...6_000)
+            return ChartDataEntry(x: Double(iterator), y: yValue)
+        }
+        
         let set1 = LineChartDataSet(entries: yValues)
         
         set1.drawCirclesEnabled = false
-        set1.mode = .cubicBezier
         set1.setColor(UIColor(hexString: AppColors.primaryPurple))
         
         let data = LineChartData(dataSet: set1)
@@ -104,16 +112,6 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         lineChartView.legend.enabled = false
     }
     
-    let yValues: [ChartDataEntry] = [
-        ChartDataEntry(x: 0.0, y: 2_500),
-        ChartDataEntry(x: 1.0, y: 4_000),
-        ChartDataEntry(x: 2.0, y: 1_500),
-        ChartDataEntry(x: 3.0, y: 1_000),
-        ChartDataEntry(x: 4.0, y: 6_000),
-        ChartDataEntry(x: 5.0, y: 5_000),
-        ChartDataEntry(x: 6.0, y: 2_000),
-        ChartDataEntry(x: 7.0, y: 4_500)]
-    
     @IBAction func cellButtonPressed(_ sender: UIButton) {
         let parameter = SettingsManager.shared.displayedArray[sender.tag]
         updateLabels(name: parameter["name"] ?? "",
@@ -124,6 +122,13 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
     }
     
     func setupCosmetics() {
+        chartContainerView.addSubview(lineChartView)
+        lineChartView.width(to: chartContainerView)
+        lineChartView.height(to: chartContainerView)
+        lineChartView.highlightPerTapEnabled = false
+        lineChartView.highlightPerDragEnabled = false
+        lineChartView.doubleTapToZoomEnabled = false
+        
         buyButton.setTitle("Buy", for: .normal)
         buyButton.titleLabel?.font = UIFont(name: AppFonts.poppinsRegular, size: 16)
         buyButton.tintColor = UIColor(hexString: AppColors.primaryPurple)
