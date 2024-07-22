@@ -1,4 +1,3 @@
-//
 //  HomepageViewController.swift
 //  CryptX
 //
@@ -147,8 +146,16 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            if let tabBarController = self.tabBarController {
-                tabBarController.selectedIndex = 1
+        if let tabBarController = self.tabBarController {
+            tabBarController.selectedIndex = 1
+            if let detailsVC = tabBarController.selectedViewController as? DetailsViewController {
+                let parameter = SettingsManager.shared.displayedArray[indexPath.row]
+                detailsVC.updateLabels(name: parameter["name"] ?? "",
+                                    symbol: parameter["symbol"] ?? "",
+                                    value: parameter["price"] ?? "",
+                                    symbolValue: parameter["amount"] ?? "",
+                                    image: parameter["icon"] ?? "")
             }
+        }
     }
 }

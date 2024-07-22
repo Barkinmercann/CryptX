@@ -47,12 +47,13 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         lineChartView.width(to: chartContainerView)
         lineChartView.height(to: chartContainerView)
         
-        let startCoin = SettingsManager.shared.displayedArray[0]
-        updateLabels(name: startCoin["name"] ?? "",
-                    symbol: startCoin["symbol"] ?? "",
-                    value: startCoin["price"] ?? "",
-                    symbolValue: startCoin["amount"] ?? "",
-                    image: startCoin["icon"] ?? "")
+        if let startCoin = SettingsManager.shared.displayedArray.first {
+            updateLabels(name: startCoin["name"] ?? "",
+                         symbol: startCoin["symbol"] ?? "",
+                         value: startCoin["price"] ?? "",
+                         symbolValue: startCoin["amount"] ?? "",
+                         image: startCoin["icon"] ?? "")
+        }
         
         setupCosmetics()
         setData()
@@ -114,7 +115,7 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         ChartDataEntry(x: 7.0, y: 4_500)]
     
     @IBAction func cellButtonPressed(_ sender: UIButton) {
-        let parameter = self.coin[sender.tag]
+        let parameter = SettingsManager.shared.displayedArray[sender.tag]
         updateLabels(name: parameter["name"] ?? "",
                     symbol: parameter["symbol"] ?? "",
                     value: parameter["price"] ?? "",
