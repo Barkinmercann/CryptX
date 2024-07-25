@@ -21,6 +21,14 @@ class SettingsViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.reloadData()
+        
+//        NotificationCenter.default.addObserver(forName: NSNotification.Name("DisplayedCoinsChanged"), object: nil, queue: .init()) { _ in
+//            self.updateTableData()
+//            }
+    }
+    
+    private func updateTableData() {
+            self.tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,8 +61,12 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         guard let settingsCell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.identifier,
                                                                for: indexPath) as? SettingsTableViewCell else { return UITableViewCell() }
 
-        let coin = SettingsManager.shared.settingsArray[indexPath.row]
-                
+        let settingsArray = SettingsManager.shared.settingsArray
+        guard indexPath.row < settingsArray.count else {
+            return UITableViewCell()
+        }
+
+        let coin = settingsArray[indexPath.row]
                 settingsCell.configureCell(name: coin["name"] ?? "Coin",
                                            image: coin["icon"] ?? "",
                                            switchTag: indexPath.row,

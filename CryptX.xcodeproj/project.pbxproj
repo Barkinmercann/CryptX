@@ -24,6 +24,9 @@
 		DA45E6BC2C46EA2000599345 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45E6BB2C46EA2000599345 /* AppConstants.swift */; };
 		DA45E6BF2C46EC4500599345 /* HomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45E6BE2C46EC4500599345 /* HomepageViewController.swift */; };
 		DA91885A2C4946EB00AF6C32 /* CoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9188592C4946EB00AF6C32 /* CoinTableViewCell.swift */; };
+		DA9795702C50FF44004ED106 /* CoinDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA97956F2C50FF44004ED106 /* CoinDataModel.swift */; };
+		DA9795722C50FF63004ED106 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9795712C50FF63004ED106 /* NetworkManager.swift */; };
+		DA9795752C51000E004ED106 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = DA9795742C51000E004ED106 /* Alamofire */; };
 		DAA16BF72C4A827A0096FF9C /* TinyConstraints in Frameworks */ = {isa = PBXBuildFile; productRef = DAA16BF62C4A827A0096FF9C /* TinyConstraints */; };
 		DAA16BFA2C4A84120096FF9C /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = DAA16BF92C4A84120096FF9C /* DGCharts */; };
 		DAA5A21A2C4BC5EE0051FE1F /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA5A2192C4BC5EE0051FE1F /* SettingsTableViewCell.swift */; };
@@ -65,6 +68,8 @@
 		DA45E6BB2C46EA2000599345 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		DA45E6BE2C46EC4500599345 /* HomepageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewController.swift; sourceTree = "<group>"; };
 		DA9188592C4946EB00AF6C32 /* CoinTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTableViewCell.swift; sourceTree = "<group>"; };
+		DA97956F2C50FF44004ED106 /* CoinDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinDataModel.swift; sourceTree = "<group>"; };
+		DA9795712C50FF63004ED106 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		DAA5A2192C4BC5EE0051FE1F /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		DAA5A21B2C4BCBEE0051FE1F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		DAC6E16A2C4DAB1600BF58BC /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
@@ -76,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA9795752C51000E004ED106 /* Alamofire in Frameworks */,
 				DAA16BFA2C4A84120096FF9C /* DGCharts in Frameworks */,
 				DAA16BF72C4A827A0096FF9C /* TinyConstraints in Frameworks */,
 			);
@@ -116,6 +122,7 @@
 				DA45E6BA2C46EA0D00599345 /* AppConstants */,
 				DA45E6A02C469C0C00599345 /* Assets */,
 				DA45E69E2C469BEC00599345 /* ApplicationLifeCycle */,
+				DA97956D2C50FEE9004ED106 /* Network */,
 				DA45E69F2C469C0000599345 /* Scenes */,
 				DA45E6982C469B9900599345 /* Info.plist */,
 			);
@@ -226,6 +233,23 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		DA97956D2C50FEE9004ED106 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				DA9795712C50FF63004ED106 /* NetworkManager.swift */,
+				DA97956E2C50FF28004ED106 /* DataModel */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		DA97956E2C50FF28004ED106 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				DA97956F2C50FF44004ED106 /* CoinDataModel.swift */,
+			);
+			path = DataModel;
+			sourceTree = "<group>";
+		};
 		DAA16BF02C4A827A0096FF9C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,6 +294,7 @@
 			packageProductDependencies = (
 				DAA16BF62C4A827A0096FF9C /* TinyConstraints */,
 				DAA16BF92C4A84120096FF9C /* DGCharts */,
+				DA9795742C51000E004ED106 /* Alamofire */,
 			);
 			productName = CryptX;
 			productReference = DA45E6872C469B9700599345 /* CryptX.app */;
@@ -303,6 +328,7 @@
 				DAF3E38B2C4A7F2E00E036B2 /* XCRemoteSwiftPackageReference "TinyConstraints" */,
 				DAA16BF82C4A84120096FF9C /* XCRemoteSwiftPackageReference "Charts" */,
 				DAA16BFB2C4A84D40096FF9C /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
+				DA9795732C51000E004ED106 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = DA45E6882C469B9700599345 /* Products */;
 			projectDirPath = "";
@@ -339,6 +365,7 @@
 				DAA5A21C2C4BCBEE0051FE1F /* SettingsViewController.swift in Sources */,
 				DA45E68F2C469B9700599345 /* SplashViewController.swift in Sources */,
 				DAA5A21A2C4BC5EE0051FE1F /* SettingsTableViewCell.swift in Sources */,
+				DA9795722C50FF63004ED106 /* NetworkManager.swift in Sources */,
 				DA45E6A42C46B93800599345 /* AppColors.swift in Sources */,
 				DA25B49D2C49A16000A620B5 /* DetailsViewController.swift in Sources */,
 				DA45E68B2C469B9700599345 /* AppDelegate.swift in Sources */,
@@ -349,6 +376,7 @@
 				DA45E68D2C469B9700599345 /* SceneDelegate.swift in Sources */,
 				DA45E6A72C46BA4100599345 /* ColorExtension.swift in Sources */,
 				DAD20F9B2C4A36B90077AC77 /* CoinCollectionViewCell.swift in Sources */,
+				DA9795702C50FF44004ED106 /* CoinDataModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,6 +620,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		DA9795732C51000E004ED106 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
 		DAA16BF82C4A84120096FF9C /* XCRemoteSwiftPackageReference "Charts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ChartsOrg/Charts.git";
@@ -619,6 +655,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		DA9795742C51000E004ED106 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA9795732C51000E004ED106 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		DAA16BF62C4A827A0096FF9C /* TinyConstraints */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DAF3E38B2C4A7F2E00E036B2 /* XCRemoteSwiftPackageReference "TinyConstraints" */;

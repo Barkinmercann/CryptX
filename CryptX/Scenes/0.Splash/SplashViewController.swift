@@ -20,13 +20,14 @@ class SplashViewController: UIViewController {
         super.viewDidLoad()
 
         setupCosmetics()
+//        fetchDataAndSetupSettings()
     }
     
     @IBAction func startButtonPressed(_ sender: Any) {
         performSegue(withIdentifier: AppConstants.Segue.enterTheApp, sender: self)
     }
     
-    func setupCosmetics() {
+    private func setupCosmetics() {
         
         splashImageView.image = .splash
         
@@ -53,5 +54,45 @@ class SplashViewController: UIViewController {
         startButton.tintColor = UIColor(hexString: AppColors.primaryPurple)
         startButton.layer.cornerRadius = 16
         startButton.layer.masksToBounds = true
+    }
+    
+    private func fetchDataAndSetupSettings() {
+        let numbers = (1...100).map { String($0) }
+        let formattedNumbers = numbers.joined(separator: ",")
+        
+        NetworkManager.shared.getCoins(by: formattedNumbers) { [weak self] coinData, error in
+            guard let self = self else { return }
+            
+            if let coinData = coinData, error == nil {
+                var defaultCoins: [[String: String]] = []
+                
+                if let coinDict = coinData.data {
+                    for (_, coinInfo) in coinDict {
+                        if let name = coinInfo.name, let symbol = coinInfo.symbol, let price = coinInfo.quote?.usd?.price {
+                            let coinDetails: [String: String] = [
+                                "name": name,
+                                "symbol": symbol,
+                                "price": "$\(String(format: "%.2f", price))",
+                                "amount": "N/A",
+                                "icon": "xrp-icon"
+                            ]
+                            defaultCoins.append(coinDetails)
+                        }
+                    }
+                }
+                defaultCoins.sort { ($0["name"] ?? "") < ($1["name"] ?? "") }
+                
+                print("Number of coins fetched: \(defaultCoins.count)")
+                
+                SettingsManager.shared.defaults.set(defaultCoins, forKey: "settingsArray")
+                SettingsManager.shared.defaults.set(defaultCoins, forKey: "DisplayedArray")
+
+                DispatchQueue.main.async {
+                    self.startButton.isEnabled = true
+                }
+            } else {
+                print("Error fetching coin data: \(String(describing: error))")
+            }
+        }
     }
 }

@@ -44,9 +44,7 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.coin = SettingsManager.shared.displayedArray
-        
+                
         collectionView.delegate = self
         collectionView.dataSource = self
         
@@ -171,8 +169,8 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         coinSymbolValueLabel.font = UIFont(name: AppFonts.poppinsBold, size: 10)
         coinSymbolValueLabel.textColor = UIColor(hexString: AppColors.primaryGrey)
         coinIcon.image = UIImage(named: image)
-        atPriceValueLabel.text = symbolValue
-        amountValueLabel.text = value
+        atPriceValueLabel.text = value
+        amountValueLabel.text = symbolValue
     }
 }
 
