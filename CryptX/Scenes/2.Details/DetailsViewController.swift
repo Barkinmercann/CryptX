@@ -57,14 +57,18 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         }
         
         setupCosmetics()
-        setData(for: SettingsManager.shared.displayedArray.first)
         collectionView.reloadData()
     
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("displayedArrayChanged"), object: nil, queue: .init()) { _ in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil, queue: .init()) { _ in
                 self.displayedArrayChanged()
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setData(for: SettingsManager.shared.displayedArray.first)
+    }
+
     func displayedArrayChanged() {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
@@ -80,7 +84,6 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
     }
     
     func setData(for coin: [String: String]?) {
-        
         let yValues = (0..<30).map { iterator -> ChartDataEntry in
             let yValue = Double.random(in: 1_000...6_000)
             return ChartDataEntry(x: Double(iterator), y: yValue)
@@ -117,6 +120,7 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
                     value: parameter["price"] ?? "",
                     symbolValue: parameter["amount"] ?? "",
                     image: parameter["icon"] ?? "")
+        setData(for: parameter)
     }
     
     func setupCosmetics() {

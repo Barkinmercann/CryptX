@@ -566,7 +566,7 @@
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ethereum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LHH-fk-P9A">
-                                                            <rect key="frame" x="84" y="4" width="85" height="24"/>
+                                                            <rect key="frame" x="84" y="4" width="141" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -609,10 +609,12 @@
                                                         <constraint firstItem="qb3-9A-9eS" firstAttribute="top" secondItem="LHH-fk-P9A" secondAttribute="bottom" id="bdl-TM-24t"/>
                                                         <constraint firstItem="Ore-oY-I4F" firstAttribute="trailing" secondItem="Fi2-46-ZBE" secondAttribute="trailing" id="dMS-GO-puN"/>
                                                         <constraint firstItem="Rgh-L9-8UC" firstAttribute="centerY" secondItem="LyL-g8-2Du" secondAttribute="centerY" id="eSk-eq-5Dq"/>
+                                                        <constraint firstItem="Fi2-46-ZBE" firstAttribute="leading" relation="lessThanOrEqual" secondItem="qb3-9A-9eS" secondAttribute="trailing" constant="238.66666666666666" id="fne-gE-FLh"/>
                                                         <constraint firstItem="Fi2-46-ZBE" firstAttribute="top" secondItem="Ore-oY-I4F" secondAttribute="bottom" constant="7.6666666666666714" id="mdr-7n-Ruv"/>
                                                         <constraint firstAttribute="trailing" secondItem="Ore-oY-I4F" secondAttribute="trailing" constant="35" id="om2-r9-0jR"/>
                                                         <constraint firstItem="LHH-fk-P9A" firstAttribute="leading" secondItem="Jcs-7L-5gt" secondAttribute="trailing" constant="12" id="uwK-Oi-adw"/>
                                                         <constraint firstItem="qb3-9A-9eS" firstAttribute="leading" secondItem="LHH-fk-P9A" secondAttribute="leading" id="vKX-na-QVo"/>
+                                                        <constraint firstItem="Rgh-L9-8UC" firstAttribute="leading" secondItem="LHH-fk-P9A" secondAttribute="trailing" constant="8" symbolic="YES" id="yQC-rN-irW"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>

@@ -13,16 +13,15 @@ class SettingsManager {
     
     private init() {
         if defaults.object(forKey: "settingsArray") == nil {
-            setDefaultCoins()
+            let numbers = (1...100).map { String($0) }
+            let formattedNumbers = numbers.joined(separator: ",")
+            getAndSetCoins(ids: formattedNumbers)
         }
         startPeriodicUpdates()
     }
     
-    private func setDefaultCoins() {
-        let numbers = (1...100).map { String($0) }
-        let formattedNumbers = numbers.joined(separator: ",")
-        
-        NetworkManager.shared.getCoins(by: formattedNumbers) { [weak self] coinData, error in
+    private func getAndSetCoins(ids: String) {
+        NetworkManager.shared.getCoins(by: ids) { [weak self] coinData, error in
             guard let self = self, let coinData = coinData, error == nil else {
                 print("Error fetching coin data: \(String(describing: error))")
                 return
@@ -31,9 +30,10 @@ class SettingsManager {
             var defaultCoins: [[String: String]] = []
             
             if let coinDict = coinData.data {
-                for (_, coinInfo) in coinDict {
+                for (id, coinInfo) in coinDict {
                     if let name = coinInfo.name, let symbol = coinInfo.symbol, let price = coinInfo.quote?.usd?.price {
                         let coinDetails: [String: String] = [
+                            "id": "\(id)",
                             "name": name,
                             "symbol": symbol,
                             "price": "$\(String(format: "%.2f", price))",
@@ -44,19 +44,31 @@ class SettingsManager {
                     }
                 }
             }
-            defaultCoins.sort { ($0["name"] ?? "") < ($1["name"] ?? "") }
             
-            self.defaults.set(defaultCoins, forKey: "settingsArray")
-            self.defaults.set(defaultCoins, forKey: "DisplayedArray")
-            NotificationCenter.default.post(name: Notification.Name("DisplayedCoinsChanged"), object: nil)
-            NotificationCenter.default.post(name: Notification.Name("SettingsDataUpdated"), object: nil)
+            // Sorting Descending Price
+            defaultCoins.sort {
+                guard let price1 = Double($0["price"]?.replacingOccurrences(of: "$", with: "") ?? "0"),
+                      let price2 = Double($1["price"]?.replacingOccurrences(of: "$", with: "") ?? "0") else {
+                    return false
+                }
+                return price1 > price2
+            }
+            if defaults.object(forKey: "settingsArray") == nil {
+                defaults.set(defaultCoins, forKey: "settingsArray")
+                NotificationCenter.default.post(name: Notification.Name("SettingsDataUpdated"), object: nil)
+            }
+            
+            defaults.set(defaultCoins, forKey: "displayedArray")
+            NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil)
         }
     }
     
     func resetDefaults() {
         defaults.removeObject(forKey: "settingsArray")
-        defaults.removeObject(forKey: "DisplayedArray")
-        setDefaultCoins()
+        defaults.removeObject(forKey: "displayedArray")
+        let numbers = (1...100).map { String($0) }
+        let formattedNumbers = numbers.joined(separator: ",")
+        getAndSetCoins(ids: formattedNumbers)
     }
     
     var settingsArray: [[String: String]] {
@@ -65,11 +77,11 @@ class SettingsManager {
     
     var displayedArray: [[String: String]] {
         get {
-            return defaults.array(forKey: "DisplayedArray") as? [[String: String]] ?? []
+            return defaults.array(forKey: "displayedArray") as? [[String: String]] ?? []
         }
         set {
-            defaults.set(newValue, forKey: "DisplayedArray")
-            NotificationCenter.default.post(name: Notification.Name("DisplayedCoinsChanged"), object: nil)
+            defaults.set(newValue, forKey: "displayedArray")
+            NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil)
         }
     }
     
@@ -78,9 +90,22 @@ class SettingsManager {
     }
     
     private func startPeriodicUpdates() {
-        Timer.scheduledTimer(withTimeInterval: 15, repeats: true) { [weak self] _ in
-            self?.setDefaultCoins()
+        Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            
+            var idsArray: [String] = []
+            for coin in self.displayedArray {
+                if let id = coin["id"] {
+                    idsArray.append(id)
+                }
+            }
+            let ids = idsArray.joined(separator: ",")
+            
+            self.getAndSetCoins(ids: ids)
             print("New data fetched")
+            
+            NotificationCenter.default.post(name: NSNotification.Name(AppConstants.NotificationName.chartValuesChanged), object: nil)
         }
+            
     }
 }

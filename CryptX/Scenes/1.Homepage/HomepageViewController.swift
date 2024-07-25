@@ -33,7 +33,7 @@ class HomepageViewController: UIViewController {
         
         setupCosmetics()
         
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("displayedArrayChanged"), object: nil, queue: .init()) { _ in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil, queue: .init()) { _ in
                 self.displayedArrayChanged()
             }
     }

@@ -13,7 +13,7 @@ import UIKit
 class CoinTableViewCell: UITableViewCell, ChartViewDelegate {
 
     static let identifier = "coinCell"
-    
+        
     lazy var lineChartView: LineChartView = {
         let chartView = LineChartView()
         chartView.backgroundColor = .black
@@ -29,6 +29,22 @@ class CoinTableViewCell: UITableViewCell, ChartViewDelegate {
     @IBOutlet private weak var coinIcon: UIImageView!
     
     @IBOutlet private weak var chartContainerView: UIView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setupChart()
+        setData()
+    }
+    
+    private func setupChart() {
+        chartContainerView.addSubview(lineChartView)
+        lineChartView.width(to: chartContainerView)
+        lineChartView.height(to: chartContainerView)
+        
+        lineChartView.highlightPerTapEnabled = false
+        lineChartView.highlightPerDragEnabled = false
+        lineChartView.doubleTapToZoomEnabled = false
+    }
     
     public func configureCell(name: String, symbol: String, value: String, symbolValue: String, image: String) {
         coinNameLabel.text = name
@@ -52,8 +68,6 @@ class CoinTableViewCell: UITableViewCell, ChartViewDelegate {
         lineChartView.highlightPerTapEnabled = false
         lineChartView.highlightPerDragEnabled = false
         lineChartView.doubleTapToZoomEnabled = false
-        
-        setData()
     }
     
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
@@ -66,7 +80,7 @@ class CoinTableViewCell: UITableViewCell, ChartViewDelegate {
         }
     }
     
-    func setData() {
+    public func setData() {
         let yValues = randomYValues
         
         let set1 = LineChartDataSet(entries: yValues)

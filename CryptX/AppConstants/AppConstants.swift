@@ -21,4 +21,11 @@ extension AppConstants {
         
         static let detailsToSettings = "detailsToSettings"
     }
+    
+    struct NotificationName {
+        
+        static let displayedArrayChanged = "displayedArrayChanged"
+        
+        static let chartValuesChanged = "chartValuesChanged"
+    }
 }

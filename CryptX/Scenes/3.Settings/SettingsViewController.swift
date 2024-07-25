@@ -21,14 +21,6 @@ class SettingsViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.reloadData()
-        
-//        NotificationCenter.default.addObserver(forName: NSNotification.Name("DisplayedCoinsChanged"), object: nil, queue: .init()) { _ in
-//            self.updateTableData()
-//            }
-    }
-    
-    private func updateTableData() {
-            self.tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,9 +34,10 @@ class SettingsViewController: UIViewController {
     }
 
     @IBAction func resetButtonPressed(_ sender: Any) {
-        self.tableView.reloadData()
         SettingsManager.shared.resetDefaults()
-        NotificationCenter.default.post(name: NSNotification.Name("displayedArrayChanged"), object: nil)
+        self.tableView.reloadData()
+        NotificationCenter.default.post(name: NSNotification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
