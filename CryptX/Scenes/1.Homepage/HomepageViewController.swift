@@ -34,10 +34,22 @@ class HomepageViewController: UIViewController {
         setupCosmetics()
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil, queue: .init()) { _ in
-                self.displayedArrayChanged()
-            }
+            self.displayedArrayChanged()
+        }
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(AppConstants.NotificationName.profileDataUpdated), object: nil, queue: .main) { [weak self] notification in
+            self?.handleProfileDataUpdate(notification)
+        }
     }
     
+    func handleProfileDataUpdate(_ notification: Notification) {
+        if let userInfo = notification.userInfo,
+           let name = userInfo["name"] as? String,
+           let image = userInfo["image"] as? UIImage {
+            prepareGreetingLabel(name: name)
+            prepareAvatarImage(image: image)
+        }
+    }
+        
     func displayedArrayChanged() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
@@ -49,25 +61,37 @@ class HomepageViewController: UIViewController {
         
         self.tableView.reloadData()
     }
-
+    
     @IBAction func settingsButtonPressed(_ sender: Any) {
         performSegue(withIdentifier: AppConstants.Segue.homepageToSettings, sender: self)
     }
     
-    func setupCosmetics() {
-        avatarImageView.image = .avatarIcon
-        avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2
-        
-        let text = "Hello Barkın"
+    func prepareGreetingLabel(name: String) {
+        let text = "Hello \(name)"
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttribute(.font, value: UIFont(name: AppFonts.poppinsRegular, size: 24)!,
                                       range: NSRange(location: 0, length: 5))
         attributedString.addAttribute(.font, value: UIFont(name: AppFonts.poppinsSemiBold, size: 24)!,
                                       range: NSRange(location: 6, length: (text.count - 6)))
-        greetingTextLabel.attributedText = attributedString
+        self.greetingTextLabel.attributedText = attributedString
+    }
+    
+    func prepareAvatarImage(image: UIImage) {
+        guard let avatarImageView = avatarImageView else {
+            print("avatarImageView is nil")
+            return
+        }
+        avatarImageView.image = image
+    }
+    
+    func setupCosmetics() {
+        prepareAvatarImage(image: .avatarIcon)
+        avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2
+        
+        prepareGreetingLabel(name: "Barkın")
         
         settingsButton.setImage(.settings, for: .normal)
-                
+        
         gradientImageView.image = .gradient
         
         currentBalanceTextLabel.text = "Current Balance"
@@ -102,11 +126,11 @@ class HomepageViewController: UIViewController {
         holdingsTextLabel.font = UIFont(name: AppFonts.poppinsBold, size: 20)
         
         let yourAttributes: [NSAttributedString.Key: Any] = [
-              .underlineStyle: NSUnderlineStyle.single.rawValue
+            .underlineStyle: NSUnderlineStyle.single.rawValue
         ]
         let attributeString = NSMutableAttributedString(string: "See All",
                                                         attributes: yourAttributes)
-             seeAllButton.setAttributedTitle(attributeString, for: .normal)
+        seeAllButton.setAttributedTitle(attributeString, for: .normal)
         
         seeAllButton.titleLabel?.font = UIFont(name: AppFonts.poppinsMedium, size: 14)
     }
@@ -124,7 +148,7 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let coinCell = tableView.dequeueReusableCell(withIdentifier: CoinTableViewCell.identifier,
-                                                               for: indexPath) as? CoinTableViewCell else { return UITableViewCell() }
+                                                           for: indexPath) as? CoinTableViewCell else { return UITableViewCell() }
         
         let coin = SettingsManager.shared.displayedArray[indexPath.row]
         coinCell.configureCell(
@@ -151,10 +175,10 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
             if let detailsVC = tabBarController.selectedViewController as? DetailsViewController {
                 let parameter = SettingsManager.shared.displayedArray[indexPath.row]
                 detailsVC.updateLabels(name: parameter["name"] ?? "",
-                                    symbol: parameter["symbol"] ?? "",
-                                    value: parameter["price"] ?? "",
-                                    symbolValue: parameter["amount"] ?? "",
-                                    image: parameter["icon"] ?? "")
+                                       symbol: parameter["symbol"] ?? "",
+                                       value: parameter["price"] ?? "",
+                                       symbolValue: parameter["amount"] ?? "",
+                                       image: parameter["icon"] ?? "")
             }
         }
     }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA24DF802C53068B00A7CE6E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA24DF7F2C53068B00A7CE6E /* ProfileViewController.swift */; };
 		DA25B49D2C49A16000A620B5 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA25B49C2C49A16000A620B5 /* DetailsViewController.swift */; };
 		DA45E68B2C469B9700599345 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45E68A2C469B9700599345 /* AppDelegate.swift */; };
 		DA45E68D2C469B9700599345 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45E68C2C469B9700599345 /* SceneDelegate.swift */; };
@@ -49,6 +50,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DA24DF7F2C53068B00A7CE6E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		DA25B49C2C49A16000A620B5 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		DA45E6872C469B9700599345 /* CryptX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA45E68A2C469B9700599345 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +92,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA24DF7E2C53066900A7CE6E /* 4.Profile */ = {
+			isa = PBXGroup;
+			children = (
+				DA24DF7F2C53068B00A7CE6E /* ProfileViewController.swift */,
+			);
+			path = 4.Profile;
+			sourceTree = "<group>";
+		};
 		DA25B4962C499DD900A620B5 /* 2.Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +159,7 @@
 				DA45E6BD2C46EB6000599345 /* 1.Homepage */,
 				DA25B4962C499DD900A620B5 /* 2.Details */,
 				DA65FB072C4BBC5D0017AF16 /* 3.Settings */,
+				DA24DF7E2C53066900A7CE6E /* 4.Profile */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -368,6 +379,7 @@
 				DA9795722C50FF63004ED106 /* NetworkManager.swift in Sources */,
 				DA45E6A42C46B93800599345 /* AppColors.swift in Sources */,
 				DA25B49D2C49A16000A620B5 /* DetailsViewController.swift in Sources */,
+				DA24DF802C53068B00A7CE6E /* ProfileViewController.swift in Sources */,
 				DA45E68B2C469B9700599345 /* AppDelegate.swift in Sources */,
 				DA91885A2C4946EB00AF6C32 /* CoinTableViewCell.swift in Sources */,
 				DA45E6BF2C46EC4500599345 /* HomepageViewController.swift in Sources */,

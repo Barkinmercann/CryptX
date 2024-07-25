@@ -27,5 +27,7 @@ extension AppConstants {
         static let displayedArrayChanged = "displayedArrayChanged"
         
         static let chartValuesChanged = "chartValuesChanged"
+        
+        static let profileDataUpdated = "profileDataUpdated"
     }
 }
