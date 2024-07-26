@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		DA24DF802C53068B00A7CE6E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA24DF7F2C53068B00A7CE6E /* ProfileViewController.swift */; };
 		DA25B49D2C49A16000A620B5 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA25B49C2C49A16000A620B5 /* DetailsViewController.swift */; };
+		DA31119D2C53B0B20090EF78 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = DA31119C2C53B0B20090EF78 /* Lottie */; };
 		DA45E68B2C469B9700599345 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45E68A2C469B9700599345 /* AppDelegate.swift */; };
 		DA45E68D2C469B9700599345 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45E68C2C469B9700599345 /* SceneDelegate.swift */; };
 		DA45E68F2C469B9700599345 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45E68E2C469B9700599345 /* SplashViewController.swift */; };
@@ -86,6 +87,7 @@
 				DA9795752C51000E004ED106 /* Alamofire in Frameworks */,
 				DAA16BFA2C4A84120096FF9C /* DGCharts in Frameworks */,
 				DAA16BF72C4A827A0096FF9C /* TinyConstraints in Frameworks */,
+				DA31119D2C53B0B20090EF78 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +308,7 @@
 				DAA16BF62C4A827A0096FF9C /* TinyConstraints */,
 				DAA16BF92C4A84120096FF9C /* DGCharts */,
 				DA9795742C51000E004ED106 /* Alamofire */,
+				DA31119C2C53B0B20090EF78 /* Lottie */,
 			);
 			productName = CryptX;
 			productReference = DA45E6872C469B9700599345 /* CryptX.app */;
@@ -340,6 +343,7 @@
 				DAA16BF82C4A84120096FF9C /* XCRemoteSwiftPackageReference "Charts" */,
 				DAA16BFB2C4A84D40096FF9C /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 				DA9795732C51000E004ED106 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				DA008BF02C539C4F00A93C97 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = DA45E6882C469B9700599345 /* Products */;
 			projectDirPath = "";
@@ -632,6 +636,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		DA008BF02C539C4F00A93C97 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.0;
+			};
+		};
 		DA9795732C51000E004ED106 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -667,6 +679,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		DA31119C2C53B0B20090EF78 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA008BF02C539C4F00A93C97 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
 		DA9795742C51000E004ED106 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DA9795732C51000E004ED106 /* XCRemoteSwiftPackageReference "Alamofire" */;

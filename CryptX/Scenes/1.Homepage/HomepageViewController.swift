@@ -10,6 +10,7 @@ import UIKit
 class HomepageViewController: UIViewController {
     
     @IBOutlet private weak var avatarImageView: UIImageView!
+    @IBOutlet private weak var avatarImageButton: UIButton!
     @IBOutlet private weak var greetingTextLabel: UILabel!
     @IBOutlet private weak var settingsButton: UIButton!
     @IBOutlet private weak var gradientImageView: UIImageView!
@@ -36,17 +37,15 @@ class HomepageViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil, queue: .init()) { _ in
             self.displayedArrayChanged()
         }
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(AppConstants.NotificationName.profileDataUpdated), object: nil, queue: .main) { [weak self] notification in
-            self?.handleProfileDataUpdate(notification)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(AppConstants.NotificationName.profileDataUpdated), object: nil, queue: .init()) { _ in
+            self.handleProfileDataUpdate()
         }
     }
     
-    func handleProfileDataUpdate(_ notification: Notification) {
-        if let userInfo = notification.userInfo,
-           let name = userInfo["name"] as? String,
-           let image = userInfo["image"] as? UIImage {
-            prepareGreetingLabel(name: name)
-            prepareAvatarImage(image: image)
+    func handleProfileDataUpdate() {
+        DispatchQueue.main.async {
+            self.prepareGreetingLabel()
+            self.prepareAvatarImage()
         }
     }
         
@@ -62,12 +61,17 @@ class HomepageViewController: UIViewController {
         self.tableView.reloadData()
     }
     
+    @IBAction func avatarImageButtonPressed(_ sender: Any) {
+        if let tabBarController = self.tabBarController {
+            tabBarController.selectedIndex = 2
+        }
+    }
     @IBAction func settingsButtonPressed(_ sender: Any) {
         performSegue(withIdentifier: AppConstants.Segue.homepageToSettings, sender: self)
     }
     
-    func prepareGreetingLabel(name: String) {
-        let text = "Hello \(name)"
+    func prepareGreetingLabel() {
+        let text = "Hello \(SettingsManager.shared.profileName)"
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttribute(.font, value: UIFont(name: AppFonts.poppinsRegular, size: 24)!,
                                       range: NSRange(location: 0, length: 5))
@@ -76,19 +80,16 @@ class HomepageViewController: UIViewController {
         self.greetingTextLabel.attributedText = attributedString
     }
     
-    func prepareAvatarImage(image: UIImage) {
-        guard let avatarImageView = avatarImageView else {
-            print("avatarImageView is nil")
-            return
-        }
-        avatarImageView.image = image
+    func prepareAvatarImage() {
+        avatarImageView.image = SettingsManager.shared.profilePhoto
     }
     
     func setupCosmetics() {
-        prepareAvatarImage(image: .avatarIcon)
+        prepareAvatarImage()
         avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2
+        avatarImageButton.layer.cornerRadius = avatarImageButton.frame.size.width / 2
         
-        prepareGreetingLabel(name: "Barkın")
+        prepareGreetingLabel()
         
         settingsButton.setImage(.settings, for: .normal)
         

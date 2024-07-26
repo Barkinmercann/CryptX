@@ -5,14 +5,15 @@
 //  
 
 import Foundation
+import UIKit
 
 class SettingsManager {
     static let shared = SettingsManager()
     
-    let defaults = UserDefaults.standard
+    fileprivate let userDefaults = UserDefaults()
     
     private init() {
-        if defaults.object(forKey: "settingsArray") == nil {
+        if userDefaults.object(forKey: "settingsArray") == nil {
             let numbers = (1...100).map { String($0) }
             let formattedNumbers = numbers.joined(separator: ",")
             getAndSetCoins(ids: formattedNumbers)
@@ -53,35 +54,58 @@ class SettingsManager {
                 }
                 return price1 > price2
             }
-            if defaults.object(forKey: "settingsArray") == nil {
-                defaults.set(defaultCoins, forKey: "settingsArray")
+            if userDefaults.object(forKey: "settingsArray") == nil {
+                userDefaults.set(defaultCoins, forKey: "settingsArray")
                 NotificationCenter.default.post(name: Notification.Name("SettingsDataUpdated"), object: nil)
             }
             
-            defaults.set(defaultCoins, forKey: "displayedArray")
+            userDefaults.set(defaultCoins, forKey: "displayedArray")
             NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil)
         }
     }
     
     func resetDefaults() {
-        defaults.removeObject(forKey: "settingsArray")
-        defaults.removeObject(forKey: "displayedArray")
+        userDefaults.removeObject(forKey: "settingsArray")
+        userDefaults.removeObject(forKey: "displayedArray")
         let numbers = (1...100).map { String($0) }
         let formattedNumbers = numbers.joined(separator: ",")
         getAndSetCoins(ids: formattedNumbers)
     }
     
     var settingsArray: [[String: String]] {
-        return defaults.array(forKey: "settingsArray") as? [[String: String]] ?? []
+        return userDefaults.array(forKey: "settingsArray") as? [[String: String]] ?? []
     }
     
     var displayedArray: [[String: String]] {
         get {
-            return defaults.array(forKey: "displayedArray") as? [[String: String]] ?? []
+            return userDefaults.array(forKey: "displayedArray") as? [[String: String]] ?? []
         }
         set {
-            defaults.set(newValue, forKey: "displayedArray")
+            userDefaults.set(newValue, forKey: "displayedArray")
             NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil)
+        }
+    }
+    
+    var profilePhoto: UIImage {
+        get {
+            if let imageData = userDefaults.data(forKey: "profilePhoto") {
+                return UIImage(data: imageData) ?? UIImage.avatarIcon
+            }
+            return UIImage.avatarIcon
+        }
+        set {
+            if let imageData = newValue.pngData() {
+                userDefaults.set(imageData, forKey: "profilePhoto")
+            }
+        }
+    }
+    
+    var profileName: String {
+        get {
+            return userDefaults.object(forKey: "profileName") as? String ?? ""
+        }
+        set {
+            userDefaults.set(newValue, forKey: "profileName")
         }
     }
     
