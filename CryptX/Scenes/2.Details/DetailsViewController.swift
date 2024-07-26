@@ -47,6 +47,7 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
                 
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.showsHorizontalScrollIndicator = false
         
         if let startCoin = SettingsManager.shared.displayedArray.first {
             updateLabels(name: startCoin["name"] ?? "",
@@ -196,9 +197,5 @@ extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, dragPreviewParametersForRowAt indexPath: IndexPath) -> UIDragPreviewParameters? {
-        return nil
     }
 }

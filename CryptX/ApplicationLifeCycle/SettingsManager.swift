@@ -38,7 +38,7 @@ class SettingsManager {
                             "name": name,
                             "symbol": symbol,
                             "price": "$\(String(format: "%.2f", price))",
-                            "amount": "N/A",
+                            "amount": "\(Int.random(in: 1...10)) \(symbol)",
                             "icon": "xrp-icon"
                         ]
                         defaultCoins.append(coinDetails)
