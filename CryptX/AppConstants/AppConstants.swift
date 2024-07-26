@@ -19,7 +19,7 @@ extension AppConstants {
         
         static let homepageToSettings = "homepageToSettings"
         
-        static let detailsToSettings = "detailsToSettings"        
+        static let detailsToSettings = "detailsToSettings"
     }
     
     struct NotificationName {
@@ -29,5 +29,7 @@ extension AppConstants {
         static let chartValuesChanged = "chartValuesChanged"
         
         static let profileDataUpdated = "profileDataUpdated"
+        
+        static let balanceUpdated = "balanceUpdated"
     }
 }

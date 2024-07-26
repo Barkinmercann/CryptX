@@ -1,3 +1,4 @@
+//
 //  HomepageViewController.swift
 //  CryptX
 //
@@ -24,7 +25,7 @@ class HomepageViewController: UIViewController {
     @IBOutlet private weak var holdingsTextLabel: UILabel!
     
     @IBOutlet private weak var tableView: UITableView!
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,6 +42,9 @@ class HomepageViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(AppConstants.NotificationName.profileDataUpdated), object: nil, queue: .init()) { _ in
             self.handleProfileDataUpdate()
         }
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(AppConstants.NotificationName.balanceUpdated), object: nil, queue: .init()) { _ in
+            self.handleBalanceUpdate()
+        }
     }
     
     func handleProfileDataUpdate() {
@@ -53,6 +57,12 @@ class HomepageViewController: UIViewController {
     func displayedArrayChanged() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
+        }
+    }
+    
+    func handleBalanceUpdate() {
+        DispatchQueue.main.async {
+            self.balanceValueLabel.text = String(format: "$%.2f", SettingsManager.shared.currentBalance)
         }
     }
     
@@ -71,6 +81,78 @@ class HomepageViewController: UIViewController {
         performSegue(withIdentifier: AppConstants.Segue.homepageToSettings, sender: self)
     }
     
+    @IBAction func depositButtonPressed(_ sender: Any) {
+        showDepositAlert()
+    }
+    
+    @IBAction func withdrawButtonPressed(_ sender: Any) {
+        showWithdrawAlert()
+    }
+    
+    func showDepositAlert() {
+        let alert = UIAlertController(title: "Deposit", message: "Enter the amount to deposit", preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.placeholder = "Amount"
+            textField.keyboardType = .decimalPad
+        }
+        let depositAction = UIAlertAction(title: "Deposit", style: .default) { _ in
+            if let amountText = alert.textFields?.first?.text, let amount = Double(amountText), amount > 0 {
+                self.updateBalance(amount: amount, isDeposit: true)
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(depositAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showWithdrawAlert() {
+        let alert = UIAlertController(title: "Withdraw", message: "Enter the amount to withdraw", preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.placeholder = "Amount"
+            textField.keyboardType = .decimalPad
+        }
+        let withdrawAction = UIAlertAction(title: "Withdraw", style: .default) { _ in
+            if let amountText = alert.textFields?.first?.text, let amount = Double(amountText), amount > 0 {
+                self.updateBalance(amount: amount, isDeposit: false)
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(withdrawAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func updateBalance(amount: Double, isDeposit: Bool) {
+        var newBalance = SettingsManager.shared.currentBalance
+        if isDeposit {
+            newBalance += amount
+            if newBalance > 1_000_000 {
+                showAlert(message: "Deposit exceeds the maximum balance limit of $1,000,000.")
+                return
+            }
+        } else {
+            newBalance -= amount
+            if newBalance < 0 {
+                showAlert(message: "Withdrawal exceeds the available balance.")
+                return
+            }
+        }
+        
+        SettingsManager.shared.currentBalance = newBalance
+        balanceValueLabel.text = String(format: "$%.2f", SettingsManager.shared.currentBalance)
+    }
+    
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Warning", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func prepareGreetingLabel() {
         let text = "Hello \(SettingsManager.shared.profileName)"
         let attributedString = NSMutableAttributedString(string: text)
@@ -86,11 +168,11 @@ class HomepageViewController: UIViewController {
     }
     
     func setupCosmetics() {
+        
+        prepareGreetingLabel()
         prepareAvatarImage()
         avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2
         avatarImageButton.layer.cornerRadius = avatarImageButton.frame.size.width / 2
-        
-        prepareGreetingLabel()
         
         settingsButton.setImage(.settings, for: .normal)
         
@@ -100,7 +182,7 @@ class HomepageViewController: UIViewController {
         currentBalanceTextLabel.font = UIFont(name: AppFonts.poppinsRegular, size: 18)
         currentBalanceTextLabel.textColor = UIColor(hexString: "#272727")
         
-        balanceValueLabel.text = "$87,430.12"
+        balanceValueLabel.text = String(format: "$%.2f", SettingsManager.shared.currentBalance)
         balanceValueLabel.font = UIFont(name: AppFonts.poppinsBold, size: 28)
         balanceValueLabel.textColor = UIColor(hexString: "#1D1D1D")
         
@@ -136,7 +218,6 @@ class HomepageViewController: UIViewController {
         
         seeAllButton.titleLabel?.font = UIFont(name: AppFonts.poppinsMedium, size: 14)
     }
-    
 }
 
 extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {

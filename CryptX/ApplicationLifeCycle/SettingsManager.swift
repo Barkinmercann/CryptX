@@ -4,6 +4,12 @@
 //  Created by Mehmet Barkın Mercan on 20.07.2024.
 //  
 
+//  SettingsManager.swift
+//  CryptX
+//
+//  Created by Mehmet Barkın Mercan on 20.07.2024.
+//
+
 import Foundation
 import UIKit
 
@@ -109,6 +115,16 @@ class SettingsManager {
         }
     }
     
+    var currentBalance: Double {
+        get {
+            return userDefaults.double(forKey: "currentBalance")
+        }
+        set {
+            userDefaults.set(newValue, forKey: "currentBalance")
+            NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationName.balanceUpdated), object: nil)
+        }
+    }
+    
     func isCoinDisplayed(_ coin: [String: String]) -> Bool {
         return displayedArray.contains(where: { $0["symbol"] == coin["symbol"] })
     }
@@ -130,6 +146,5 @@ class SettingsManager {
             
             NotificationCenter.default.post(name: NSNotification.Name(AppConstants.NotificationName.chartValuesChanged), object: nil)
         }
-            
     }
 }
