@@ -35,7 +35,10 @@ class HomepageViewController: UIViewController {
         tableView.showsVerticalScrollIndicator = false
         
         setupCosmetics()
-        
+        addObserver()
+    }
+    
+    func addObserver() {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil, queue: .init()) { _ in
             self.displayedArrayChanged()
         }
@@ -82,14 +85,6 @@ class HomepageViewController: UIViewController {
     }
     
     @IBAction func depositButtonPressed(_ sender: Any) {
-        showDepositAlert()
-    }
-    
-    @IBAction func withdrawButtonPressed(_ sender: Any) {
-        showWithdrawAlert()
-    }
-    
-    func showDepositAlert() {
         let alert = UIAlertController(title: "Deposit", message: "Enter the amount to deposit", preferredStyle: .alert)
         alert.addTextField { textField in
             textField.placeholder = "Amount"
@@ -108,7 +103,7 @@ class HomepageViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func showWithdrawAlert() {
+    @IBAction func withdrawButtonPressed(_ sender: Any) {
         let alert = UIAlertController(title: "Withdraw", message: "Enter the amount to withdraw", preferredStyle: .alert)
         alert.addTextField { textField in
             textField.placeholder = "Amount"
@@ -260,7 +255,7 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
                 detailsVC.updateLabels(name: parameter["name"] ?? "",
                                        symbol: parameter["symbol"] ?? "",
                                        value: parameter["price"] ?? "",
-                                       symbolValue: parameter["amount"] ?? "",
+                                       symbolValue: String(SettingsManager.shared.numberOfCoins[parameter["symbol"] ?? ""] ?? 0),
                                        image: parameter["icon"] ?? "")
             }
         }

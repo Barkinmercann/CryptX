@@ -17,11 +17,16 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupCosmetics()
+    }
+    
+    func setupCosmetics() {
         profilePhotoImageView.layer.cornerRadius = profilePhotoImageView.frame.size.width / 2
-        imageChangeButton.layer.cornerRadius = imageChangeButton.frame.size.width / 2   
+        imageChangeButton.layer.cornerRadius = imageChangeButton.frame.size.width / 2
         profilePhotoImageView.image = SettingsManager.shared.profilePhoto
         profileNameTextField.text = SettingsManager.shared.profileName
     }
+    
     @IBAction func saveButtonTapped(_ sender: Any) {
         SettingsManager.shared.profileName = profileNameTextField.text ?? ""
         SettingsManager.shared.profilePhoto = profilePhotoImageView.image ?? UIImage()
@@ -30,6 +35,8 @@ class ProfileViewController: UIViewController {
         feedbackGenerator.impactOccurred()
         
         NotificationCenter.default.post(name: NSNotification.Name(AppConstants.NotificationName.profileDataUpdated), object: nil)
+
+        self.view.endEditing(true)
     }
     
     @IBAction func imageChangeButtonTapped(_ sender: Any) {

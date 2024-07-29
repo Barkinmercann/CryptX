@@ -31,5 +31,7 @@ extension AppConstants {
         static let profileDataUpdated = "profileDataUpdated"
         
         static let balanceUpdated = "balanceUpdated"
+        
+        static let numberOfCoinsUpdated = "numberOfCoinsUpdated"
     }
 }

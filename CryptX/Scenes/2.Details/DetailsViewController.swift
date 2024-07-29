@@ -119,9 +119,84 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         updateLabels(name: parameter["name"] ?? "",
                     symbol: parameter["symbol"] ?? "",
                     value: parameter["price"] ?? "",
-                    symbolValue: parameter["amount"] ?? "",
+                     symbolValue: String(SettingsManager.shared.numberOfCoins[parameter["symbol"] ?? ""] ?? 0),
                     image: parameter["icon"] ?? "")
         setData(for: parameter)
+    }
+    
+    @IBAction func buyButtonPressed(_ sender: Any) {
+        let alert = UIAlertController(title: "Buy Coins", message: "Enter quantity:", preferredStyle: .alert)
+            alert.addTextField { textField in
+                textField.keyboardType = .numberPad
+            }
+        let buyAction = UIAlertAction(title: "Buy", style: .default) { [weak self] _ in
+            guard let self = self,
+                  let textField = alert.textFields?.first,
+                  let quantityText = textField.text,
+                  let quantity = Double(quantityText),
+                  let coinValueText = self.coinValueLabel.text?.replacingOccurrences(of: "$", with: ""),
+                  let coinValue = Double(coinValueText) else { return }
+
+            let totalCost = coinValue * quantity
+            self.buyCoins(quantity: quantity, totalCost: totalCost)
+        }
+        alert.addAction(buyAction)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func sellButtonPressed(_ sender: Any) {
+        let alert = UIAlertController(title: "Sell Coins", message: "Enter quantity:", preferredStyle: .alert)
+            alert.addTextField { textField in
+                textField.keyboardType = .numberPad
+            }
+        let sellAction = UIAlertAction(title: "Sell", style: .default) { [weak self] _ in
+            guard let self = self,
+                  let textField = alert.textFields?.first,
+                  let quantityText = textField.text,
+                  let quantity = Double(quantityText),
+                  let coinValueText = self.coinValueLabel.text?.replacingOccurrences(of: "$", with: ""),
+                  let coinValue = Double(coinValueText) else { return }
+
+            let totalCost = coinValue * quantity
+            self.sellCoins(quantity: quantity, totalCost: totalCost)
+        }
+        alert.addAction(sellAction)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func buyCoins(quantity: Double, totalCost: Double) {
+        if SettingsManager.shared.currentBalance >= totalCost {
+            SettingsManager.shared.currentBalance -= totalCost
+            updateCoinAmount(by: quantity)
+        } else {
+            showErrorAlert(message: "Insufficient balance to complete the transaction.")
+        }
+    }
+
+    func sellCoins(quantity: Double, totalCost: Double) {
+        let currentAmount = SettingsManager.shared.numberOfCoins[coinSymbolLabel.text ?? ""] ?? 0
+        if currentAmount >= quantity {
+            SettingsManager.shared.currentBalance += totalCost
+            updateCoinAmount(by: -quantity)
+        } else {
+            showErrorAlert(message: "Insufficient coins to complete the transaction.")
+        }
+    }
+
+    func updateCoinAmount(by quantity: Double) {
+        guard let coinSymbol = coinSymbolLabel.text else { return }
+        var currentAmount = SettingsManager.shared.numberOfCoins[coinSymbol] ?? 0
+        currentAmount += quantity
+        SettingsManager.shared.numberOfCoins[coinSymbol] = currentAmount
+        self.amountValueLabel.text = "\(currentAmount)"
+    }
+
+    func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: "Warning", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
     func setupCosmetics() {

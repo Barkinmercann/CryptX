@@ -1,9 +1,4 @@
-//  SettingsManager.swift
-//  CryptX
 //
-//  Created by Mehmet Barkın Mercan on 20.07.2024.
-//  
-
 //  SettingsManager.swift
 //  CryptX
 //
@@ -16,7 +11,7 @@ import UIKit
 class SettingsManager {
     static let shared = SettingsManager()
     
-    fileprivate let userDefaults = UserDefaults()
+    fileprivate let userDefaults = UserDefaults.standard
     
     private init() {
         if userDefaults.object(forKey: "settingsArray") == nil {
@@ -28,45 +23,49 @@ class SettingsManager {
     }
     
     private func getAndSetCoins(ids: String) {
-        NetworkManager.shared.getCoins(by: ids) { [weak self] coinData, error in
-            guard let self = self, let coinData = coinData, error == nil else {
-                print("Error fetching coin data: \(String(describing: error))")
-                return
-            }
-            
-            var defaultCoins: [[String: String]] = []
-            
-            if let coinDict = coinData.data {
-                for (id, coinInfo) in coinDict {
-                    if let name = coinInfo.name, let symbol = coinInfo.symbol, let price = coinInfo.quote?.usd?.price {
-                        let coinDetails: [String: String] = [
-                            "id": "\(id)",
-                            "name": name,
-                            "symbol": symbol,
-                            "price": "$\(String(format: "%.2f", price))",
-                            "amount": "\(Int.random(in: 1...10)) \(symbol)",
-                            "icon": "xrp-icon"
-                        ]
-                        defaultCoins.append(coinDetails)
+        DispatchQueue.global().async {
+            NetworkManager.shared.getCoins(by: ids) { [weak self] coinData, error in
+                guard let self = self, let coinData = coinData, error == nil else {
+                    print("Error fetching coin data: \(String(describing: error))")
+                    return
+                }
+                
+                var defaultCoins: [[String: String]] = []
+                
+                if let coinDict = coinData.data {
+                    for (id, coinInfo) in coinDict {
+                        if let name = coinInfo.name, let symbol = coinInfo.symbol,
+                           let price = coinInfo.quote?.usd?.price {
+                            let amount = SettingsManager.shared.numberOfCoins[symbol] ?? 0
+                            let coinDetails: [String: String] = [
+                                "id": "\(id)",
+                                "name": name,
+                                "symbol": symbol,
+                                "price": "$\(String(format: "%.2f", price))",
+                                "amount": "\(amount)",
+                                "icon": "xrp-icon"
+                            ]
+                            defaultCoins.append(coinDetails)
+                        }
                     }
                 }
-            }
-            
-            // Sorting Descending Price
-            defaultCoins.sort {
-                guard let price1 = Double($0["price"]?.replacingOccurrences(of: "$", with: "") ?? "0"),
-                      let price2 = Double($1["price"]?.replacingOccurrences(of: "$", with: "") ?? "0") else {
-                    return false
+                
+                defaultCoins.sort {
+                    guard let price1 = Double($0["price"]?.replacingOccurrences(of: "$", with: "") ?? "0"),
+                          let price2 = Double($1["price"]?.replacingOccurrences(of: "$", with: "") ?? "0") else {
+                        return false
+                    }
+                    return price1 > price2
                 }
-                return price1 > price2
-            }
-            if userDefaults.object(forKey: "settingsArray") == nil {
-                userDefaults.set(defaultCoins, forKey: "settingsArray")
-                NotificationCenter.default.post(name: Notification.Name("SettingsDataUpdated"), object: nil)
-            }
-            
-            userDefaults.set(defaultCoins, forKey: "displayedArray")
-            NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil)
+                
+                if self.userDefaults.object(forKey: "settingsArray") == nil {
+                    self.userDefaults.set(defaultCoins, forKey: "settingsArray")
+                    NotificationCenter.default.post(name: Notification.Name("SettingsDataUpdated"), object: nil)
+                }
+                
+                self.userDefaults.set(defaultCoins, forKey: "displayedArray")
+                NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil)
+                }
         }
     }
     
@@ -122,6 +121,16 @@ class SettingsManager {
         set {
             userDefaults.set(newValue, forKey: "currentBalance")
             NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationName.balanceUpdated), object: nil)
+        }
+    }
+    
+    var numberOfCoins: [String: Double] {
+        get {
+            return userDefaults.dictionary(forKey: "numberOfCoins") as? [String: Double] ?? [:]
+        }
+        set {
+            userDefaults.set(newValue, forKey: "numberOfCoins")
+            NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationName.numberOfCoinsUpdated), object: nil)
         }
     }
     
