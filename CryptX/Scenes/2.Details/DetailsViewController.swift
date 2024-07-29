@@ -11,11 +11,7 @@ import UIKit
 
 class DetailsViewController: UIViewController, ChartViewDelegate {
     
-    lazy var lineChartView: LineChartView = {
-        let chartView = LineChartView()
-        chartView.backgroundColor = .black
-        return chartView
-    }()
+    // MARK: - Outlets
 
     @IBOutlet private weak var iconBackgroundView: UIView!
     @IBOutlet private weak var coinNameLabel: UILabel!
@@ -41,7 +37,9 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
     @IBOutlet private weak var percentage25Label: UIButton!
     
     var coin: [[String: String]] = []
-        
+    
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -70,15 +68,13 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         setData(for: SettingsManager.shared.displayedArray.first)
     }
 
-    func displayedArrayChanged() {
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
-    }
+    // MARK: - Chart View
     
-    @IBAction func settingsButtonPressed(_ sender: Any) {
-        performSegue(withIdentifier: AppConstants.Segue.detailsToSettings, sender: self)
-    }
+    lazy var lineChartView: LineChartView = {
+        let chartView = LineChartView()
+        chartView.backgroundColor = .black
+        return chartView
+    }()
     
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         print(entry)
@@ -112,6 +108,12 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         lineChartView.xAxis.enabled = false
         
         lineChartView.legend.enabled = false
+    }
+    
+    // MARK: - Button Actions
+    
+    @IBAction func settingsButtonPressed(_ sender: Any) {
+        performSegue(withIdentifier: AppConstants.Segue.detailsToSettings, sender: self)
     }
     
     @IBAction func cellButtonPressed(_ sender: UIButton) {
@@ -166,6 +168,14 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         present(alert, animated: true, completion: nil)
     }
     
+    // MARK: - Helper Methods
+    
+    func displayedArrayChanged() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
     func buyCoins(quantity: Double, totalCost: Double) {
         if SettingsManager.shared.currentBalance >= totalCost {
             SettingsManager.shared.currentBalance -= totalCost
@@ -192,12 +202,14 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         SettingsManager.shared.numberOfCoins[coinSymbol] = currentAmount
         self.amountValueLabel.text = "\(currentAmount)"
     }
-
+    
     func showErrorAlert(message: String) {
         let alert = UIAlertController(title: "Warning", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
+    
+    // MARK: - Set Up Cosmetics and Update Labels
     
     func setupCosmetics() {
         chartContainerView.addSubview(lineChartView)
@@ -254,6 +266,7 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
     }
 }
 
+// MARK: - Collection View Controller
 extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

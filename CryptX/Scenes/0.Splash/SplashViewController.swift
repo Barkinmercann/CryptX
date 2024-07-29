@@ -10,17 +10,23 @@ import UIKit
 
 class SplashViewController: UIViewController {
 
+    // MARK: - Outlets
+    
     @IBOutlet private weak var header1TextLabel: UILabel!
     @IBOutlet private weak var header2TextLabel: UILabel!
     @IBOutlet private weak var header3TextLabel: UILabel!
     @IBOutlet private weak var splashImageView: UIImageView!
     @IBOutlet private weak var startButton: UIButton!
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupCosmetics()
     }
+    
+    // MARK: - Set up
     
     @IBAction func startButtonPressed(_ sender: Any) {
         performSegue(withIdentifier: AppConstants.Segue.enterTheApp, sender: self)

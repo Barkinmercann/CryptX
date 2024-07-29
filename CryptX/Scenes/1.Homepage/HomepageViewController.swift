@@ -10,6 +10,8 @@ import UIKit
 
 class HomepageViewController: UIViewController {
     
+    // MARK: - Outlets
+    
     @IBOutlet private weak var avatarImageView: UIImageView!
     @IBOutlet private weak var avatarImageButton: UIButton!
     @IBOutlet private weak var greetingTextLabel: UILabel!
@@ -25,6 +27,14 @@ class HomepageViewController: UIViewController {
     @IBOutlet private weak var holdingsTextLabel: UILabel!
     
     @IBOutlet private weak var tableView: UITableView!
+    
+    // MARK: - Lifecycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tableView.reloadData()
+    }
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +47,8 @@ class HomepageViewController: UIViewController {
         setupCosmetics()
         addObserver()
     }
+    
+    // MARK: - Notification Handlers
     
     func addObserver() {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil, queue: .init()) { _ in
@@ -69,20 +81,19 @@ class HomepageViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.tableView.reloadData()
-    }
+    // MARK: - Avatar and Settings Actions
     
     @IBAction func avatarImageButtonPressed(_ sender: Any) {
         if let tabBarController = self.tabBarController {
             tabBarController.selectedIndex = 2
         }
     }
+    
     @IBAction func settingsButtonPressed(_ sender: Any) {
         performSegue(withIdentifier: AppConstants.Segue.homepageToSettings, sender: self)
     }
+    
+    // MARK: - Deposit and Withdraw Button Actions
     
     @IBAction func depositButtonPressed(_ sender: Any) {
         let alert = UIAlertController(title: "Deposit", message: "Enter the amount to deposit", preferredStyle: .alert)
@@ -147,6 +158,8 @@ class HomepageViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
+    
+    // MARK: - Set up Cosmetics
     
     func prepareGreetingLabel() {
         let text = "Hello \(SettingsManager.shared.profileName)"
@@ -215,6 +228,7 @@ class HomepageViewController: UIViewController {
     }
 }
 
+// MARK: - Table View Controller
 extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1

@@ -43,8 +43,6 @@ class SettingsTableViewCell: UITableViewCell {
             }
         }
         
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(name: NSNotification.Name("displayedArrayChanged"), object: nil)
-        }
+        NotificationCenter.default.post(name: NSNotification.Name("displayedArrayChanged"), object: nil)
     }
 }

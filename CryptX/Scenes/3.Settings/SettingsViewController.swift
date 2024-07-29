@@ -10,11 +10,15 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     
+    // MARK: - Outlets and Variables
+    
     @IBOutlet private weak var tableView: UITableView!
         
     var coinArray: [[String: String]] = []
     var selectedCoins: [Bool] = []
 
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,6 +32,8 @@ class SettingsViewController: UIViewController {
         
         self.tableView.reloadData()
     }
+    
+    // MARK: Actions
 
     func setCoins(_ coins: [[String: String]]) {
         self.coinArray = coins
@@ -41,6 +47,7 @@ class SettingsViewController: UIViewController {
     }
 }
 
+// MARK: - Table View Controller
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

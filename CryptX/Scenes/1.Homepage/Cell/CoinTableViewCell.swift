@@ -14,11 +14,7 @@ class CoinTableViewCell: UITableViewCell, ChartViewDelegate {
 
     static let identifier = "coinCell"
         
-    lazy var lineChartView: LineChartView = {
-        let chartView = LineChartView()
-        chartView.backgroundColor = .black
-        return chartView
-    }()
+    // MARK: - Outlets
         
     @IBOutlet private weak var coinNameLabel: UILabel!
     @IBOutlet private weak var coinSymbolLabel: UILabel!
@@ -30,21 +26,15 @@ class CoinTableViewCell: UITableViewCell, ChartViewDelegate {
     
     @IBOutlet private weak var chartContainerView: UIView!
     
+    // MARK: - Lifecycle
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setupChart()
         setData()
     }
     
-    private func setupChart() {
-        chartContainerView.addSubview(lineChartView)
-        lineChartView.width(to: chartContainerView)
-        lineChartView.height(to: chartContainerView)
-        
-        lineChartView.highlightPerTapEnabled = false
-        lineChartView.highlightPerDragEnabled = false
-        lineChartView.doubleTapToZoomEnabled = false
-    }
+    // MARK: - Methods
     
     public func configureCell(name: String, symbol: String, value: String, symbolValue: String, image: String) {
         coinNameLabel.text = name
@@ -61,6 +51,24 @@ class CoinTableViewCell: UITableViewCell, ChartViewDelegate {
         iconBackgroundView.layer.cornerRadius = 6
         iconBackgroundView.backgroundColor = UIColor(hexString: AppColors.coinIconColor)
         
+        chartContainerView.addSubview(lineChartView)
+        lineChartView.width(to: chartContainerView)
+        lineChartView.height(to: chartContainerView)
+        
+        lineChartView.highlightPerTapEnabled = false
+        lineChartView.highlightPerDragEnabled = false
+        lineChartView.doubleTapToZoomEnabled = false
+    }
+    
+    // MARK: - Chart View
+    
+    lazy var lineChartView: LineChartView = {
+        let chartView = LineChartView()
+        chartView.backgroundColor = .black
+        return chartView
+    }()
+    
+    private func setupChart() {
         chartContainerView.addSubview(lineChartView)
         lineChartView.width(to: chartContainerView)
         lineChartView.height(to: chartContainerView)

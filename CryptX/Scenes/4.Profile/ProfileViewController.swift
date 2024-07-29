@@ -10,15 +10,21 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    // MARK: - Outlets
+    
     @IBOutlet private weak var profilePhotoImageView: UIImageView!
     @IBOutlet private weak var profileNameTextField: UITextField!
     @IBOutlet private var imageChangeButton: UIButton!
         
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupCosmetics()
     }
+    
+    // MARK: Set up Cosmetics
     
     func setupCosmetics() {
         profilePhotoImageView.layer.cornerRadius = profilePhotoImageView.frame.size.width / 2
@@ -26,6 +32,8 @@ class ProfileViewController: UIViewController {
         profilePhotoImageView.image = SettingsManager.shared.profilePhoto
         profileNameTextField.text = SettingsManager.shared.profileName
     }
+    
+    // MARK: - Save Button
     
     @IBAction func saveButtonTapped(_ sender: Any) {
         SettingsManager.shared.profileName = profileNameTextField.text ?? ""
@@ -38,6 +46,12 @@ class ProfileViewController: UIViewController {
 
         self.view.endEditing(true)
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            self.view.endEditing(true)
+    }
+    
+    // MARK: - Image Picker Button
     
     @IBAction func imageChangeButtonTapped(_ sender: Any) {
         let alert = UIAlertController(title: "Edit Profile Photo", message: "", preferredStyle: .actionSheet)
@@ -62,11 +76,9 @@ class ProfileViewController: UIViewController {
         imagePicker.allowsEditing = true
         self.present(imagePicker, animated: true, completion: nil)
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-            self.view.endEditing(true)
-    }
 }
+
+// MARK: - Image Picker Controller
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
