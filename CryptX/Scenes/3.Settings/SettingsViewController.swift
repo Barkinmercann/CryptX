@@ -67,11 +67,12 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         let coin = settingsArray[indexPath.row]
-                settingsCell.configureCell(name: coin["name"] ?? "Coin",
-                                           image: coin["icon"] ?? "",
-                                           switchTag: indexPath.row,
-                                           isOn: SettingsManager.shared.isCoinDisplayed(coin))
-        
+        if let name = coin["name"], let icon = coin["icon"] {
+            settingsCell.configureCell(name: name,
+                                       image: icon,
+                                       switchTag: indexPath.row,
+                                       isOn: SettingsManager.shared.isCoinDisplayed(coin))
+        }
         return settingsCell
     }
     

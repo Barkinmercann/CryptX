@@ -33,6 +33,7 @@
 		DAA16BFA2C4A84120096FF9C /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = DAA16BF92C4A84120096FF9C /* DGCharts */; };
 		DAA5A21A2C4BC5EE0051FE1F /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA5A2192C4BC5EE0051FE1F /* SettingsTableViewCell.swift */; };
 		DAA5A21C2C4BCBEE0051FE1F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA5A21B2C4BCBEE0051FE1F /* SettingsViewController.swift */; };
+		DAC61EEA2C58E283001F8B47 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC61EE92C58E283001F8B47 /* BaseViewController.swift */; };
 		DAC6E16B2C4DAB1700BF58BC /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC6E16A2C4DAB1600BF58BC /* SettingsManager.swift */; };
 		DAD20F9B2C4A36B90077AC77 /* CoinCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD20F9A2C4A36B90077AC77 /* CoinCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -75,6 +76,7 @@
 		DA9795712C50FF63004ED106 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		DAA5A2192C4BC5EE0051FE1F /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		DAA5A21B2C4BCBEE0051FE1F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		DAC61EE92C58E283001F8B47 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		DAC6E16A2C4DAB1600BF58BC /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		DAD20F9A2C4A36B90077AC77 /* CoinCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -156,6 +158,7 @@
 		DA45E69F2C469C0000599345 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				DAC61EE92C58E283001F8B47 /* BaseViewController.swift */,
 				DA45E6902C469B9700599345 /* Main.storyboard */,
 				DA45E6A12C469CCE00599345 /* 0.Splash */,
 				DA45E6BD2C46EB6000599345 /* 1.Homepage */,
@@ -381,6 +384,7 @@
 				DA45E68F2C469B9700599345 /* SplashViewController.swift in Sources */,
 				DAA5A21A2C4BC5EE0051FE1F /* SettingsTableViewCell.swift in Sources */,
 				DA9795722C50FF63004ED106 /* NetworkManager.swift in Sources */,
+				DAC61EEA2C58E283001F8B47 /* BaseViewController.swift in Sources */,
 				DA45E6A42C46B93800599345 /* AppColors.swift in Sources */,
 				DA25B49D2C49A16000A620B5 /* DetailsViewController.swift in Sources */,
 				DA24DF802C53068B00A7CE6E /* ProfileViewController.swift in Sources */,

@@ -9,7 +9,7 @@ import DGCharts
 import TinyConstraints
 import UIKit
 
-class DetailsViewController: UIViewController, ChartViewDelegate {
+class DetailsViewController: BaseViewController, ChartViewDelegate {
     
     // MARK: - Outlets
 
@@ -110,7 +110,7 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         lineChartView.legend.enabled = false
     }
     
-    // MARK: - Button Actions
+    // MARK: - Settings And Cell Button
     
     @IBAction func settingsButtonPressed(_ sender: Any) {
         performSegue(withIdentifier: AppConstants.Segue.detailsToSettings, sender: self)
@@ -126,54 +126,45 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         setData(for: parameter)
     }
     
-    @IBAction func buyButtonPressed(_ sender: Any) {
-        let alert = UIAlertController(title: "Buy Coins", message: "Enter quantity:", preferredStyle: .alert)
-            alert.addTextField { textField in
-                textField.keyboardType = .numberPad
-            }
-        let buyAction = UIAlertAction(title: "Buy", style: .default) { [weak self] _ in
-            guard let self = self,
-                  let textField = alert.textFields?.first,
-                  let quantityText = textField.text,
-                  let quantity = Double(quantityText),
-                  let coinValueText = self.coinValueLabel.text?.replacingOccurrences(of: "$", with: ""),
-                  let coinValue = Double(coinValueText) else { return }
-
-            let totalCost = coinValue * quantity
-            self.buyCoins(quantity: quantity, totalCost: totalCost)
-        }
-        alert.addAction(buyAction)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    
-    @IBAction func sellButtonPressed(_ sender: Any) {
-        let alert = UIAlertController(title: "Sell Coins", message: "Enter quantity:", preferredStyle: .alert)
-            alert.addTextField { textField in
-                textField.keyboardType = .numberPad
-            }
-        let sellAction = UIAlertAction(title: "Sell", style: .default) { [weak self] _ in
-            guard let self = self,
-                  let textField = alert.textFields?.first,
-                  let quantityText = textField.text,
-                  let quantity = Double(quantityText),
-                  let coinValueText = self.coinValueLabel.text?.replacingOccurrences(of: "$", with: ""),
-                  let coinValue = Double(coinValueText) else { return }
-
-            let totalCost = coinValue * quantity
-            self.sellCoins(quantity: quantity, totalCost: totalCost)
-        }
-        alert.addAction(sellAction)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    
-    // MARK: - Helper Methods
-    
     func displayedArrayChanged() {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
+    }
+    
+    // MARK: - Buy and Sell Button
+    
+    @IBAction func buyButtonPressed(_ sender: Any) {
+        buttonAction("Buy")
+    }
+    
+    @IBAction func sellButtonPressed(_ sender: Any) {
+        buttonAction("Sell")
+    }
+    
+    func buttonAction(_ action: String) {
+        let alert = UIAlertController(title: "\(action) Coins", message: "Enter quantity:", preferredStyle: .alert)
+            alert.addTextField { textField in
+                textField.keyboardType = .numberPad
+            }
+        let buyAction = UIAlertAction(title: "\(action)", style: .default) { [weak self] _ in
+            guard let self = self,
+                  let textField = alert.textFields?.first,
+                  let quantityText = textField.text,
+                  let quantity = Double(quantityText),
+                  let coinValueText = self.coinValueLabel.text?.replacingOccurrences(of: "$", with: ""),
+                  let coinValue = Double(coinValueText) else { return }
+
+            let totalCost = coinValue * quantity
+            if action == "Buy" {
+                self.buyCoins(quantity: quantity, totalCost: totalCost)
+            } else {
+                self.sellCoins(quantity: quantity, totalCost: totalCost)
+            }
+        }
+        alert.addAction(buyAction)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
     func buyCoins(quantity: Double, totalCost: Double) {
@@ -201,12 +192,6 @@ class DetailsViewController: UIViewController, ChartViewDelegate {
         currentAmount += quantity
         SettingsManager.shared.numberOfCoins[coinSymbol] = currentAmount
         self.amountValueLabel.text = "\(currentAmount)"
-    }
-    
-    func showErrorAlert(message: String) {
-        let alert = UIAlertController(title: "Warning", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
     }
     
     // MARK: - Set Up Cosmetics and Update Labels

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class HomepageViewController: UIViewController {
+class HomepageViewController: BaseViewController {
     
     // MARK: - Outlets
     
@@ -96,67 +96,50 @@ class HomepageViewController: UIViewController {
     // MARK: - Deposit and Withdraw Button Actions
     
     @IBAction func depositButtonPressed(_ sender: Any) {
-        let alert = UIAlertController(title: "Deposit", message: "Enter the amount to deposit", preferredStyle: .alert)
-        alert.addTextField { textField in
-            textField.placeholder = "Amount"
-            textField.keyboardType = .decimalPad
-        }
-        let depositAction = UIAlertAction(title: "Deposit", style: .default) { _ in
-            if let amountText = alert.textFields?.first?.text, let amount = Double(amountText), amount > 0 {
-                self.updateBalance(amount: amount, isDeposit: true)
-            }
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        alert.addAction(depositAction)
-        alert.addAction(cancelAction)
-        
-        self.present(alert, animated: true, completion: nil)
+        buttonAction("deposit")
     }
     
     @IBAction func withdrawButtonPressed(_ sender: Any) {
-        let alert = UIAlertController(title: "Withdraw", message: "Enter the amount to withdraw", preferredStyle: .alert)
+        buttonAction("withdraw")
+    }
+    
+    func buttonAction(_ action: String) {
+        let alert = UIAlertController(title: action.capitalized, message: "Enter the amount to \(action)", preferredStyle: .alert)
         alert.addTextField { textField in
             textField.placeholder = "Amount"
             textField.keyboardType = .decimalPad
         }
-        let withdrawAction = UIAlertAction(title: "Withdraw", style: .default) { _ in
+        let alertAction = UIAlertAction(title: action.capitalized, style: .default) { _ in
             if let amountText = alert.textFields?.first?.text, let amount = Double(amountText), amount > 0 {
-                self.updateBalance(amount: amount, isDeposit: false)
+                self.updateBalance(amount: amount, action: action)
             }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        alert.addAction(withdrawAction)
+        alert.addAction(alertAction)
         alert.addAction(cancelAction)
         
         self.present(alert, animated: true, completion: nil)
     }
     
-    func updateBalance(amount: Double, isDeposit: Bool) {
+    func updateBalance(amount: Double, action: String) {
         var newBalance = SettingsManager.shared.currentBalance
-        if isDeposit {
+        if action == "deposit" {
             newBalance += amount
             if newBalance > 1_000_000 {
-                showAlert(message: "Deposit exceeds the maximum balance limit of $1,000,000.")
+                showErrorAlert(message: "Deposit exceeds the maximum balance limit of $1,000,000.")
                 return
             }
         } else {
             newBalance -= amount
             if newBalance < 0 {
-                showAlert(message: "Withdrawal exceeds the available balance.")
+                showErrorAlert(message: "Withdrawal exceeds the available balance.")
                 return
             }
         }
         
         SettingsManager.shared.currentBalance = newBalance
         balanceValueLabel.text = String(format: "$%.2f", SettingsManager.shared.currentBalance)
-    }
-    
-    func showAlert(message: String) {
-        let alert = UIAlertController(title: "Warning", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
     }
     
     // MARK: - Set up Cosmetics
@@ -243,12 +226,15 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
                                                            for: indexPath) as? CoinTableViewCell else { return UITableViewCell() }
         
         let coin = SettingsManager.shared.displayedArray[indexPath.row]
-        coinCell.configureCell(
-            name: coin["name"] ?? "",
-            symbol: coin["symbol"] ?? "",
-            value: coin["price"] ?? "",
-            symbolValue: coin["amount"] ?? "",
-            image: coin["icon"] ?? "")
+        if let name = coin["name"], let symbol = coin["symbol"], let value = coin["price"],
+           let symbolValue = coin["amount"], let image = coin["icon"] {
+            coinCell.configureCell(
+                name: name,
+                symbol: symbol,
+                value: value,
+                symbolValue: symbolValue,
+                image: image)
+        }
         
         return coinCell
     }
@@ -264,13 +250,14 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let tabBarController = self.tabBarController {
             tabBarController.selectedIndex = 1
-            if let detailsVC = tabBarController.selectedViewController as? DetailsViewController {
-                let parameter = SettingsManager.shared.displayedArray[indexPath.row]
-                detailsVC.updateLabels(name: parameter["name"] ?? "",
-                                       symbol: parameter["symbol"] ?? "",
-                                       value: parameter["price"] ?? "",
-                                       symbolValue: String(SettingsManager.shared.numberOfCoins[parameter["symbol"] ?? ""] ?? 0),
-                                       image: parameter["icon"] ?? "")
+            let parameter = SettingsManager.shared.displayedArray[indexPath.row]
+            if let detailsVC = tabBarController.selectedViewController as? DetailsViewController, let name = parameter["name"],
+               let symbol = parameter["symbol"], let value = parameter["price"], let image = parameter["icon"] {
+                detailsVC.updateLabels(name: name,
+                                       symbol: symbol,
+                                       value: value,
+                                       symbolValue: String(SettingsManager.shared.numberOfCoins[symbol] ?? 0),
+                                       image: image)
             }
         }
     }
