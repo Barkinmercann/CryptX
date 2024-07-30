@@ -8,6 +8,15 @@
 import Foundation
 import UIKit
 
+struct CryptoCoin: Codable {
+    var id: String
+    var name: String
+    var symbol: String
+    var price: String
+    var amount: String
+    var icon: String
+}
+
 class SettingsManager {
     static let shared = SettingsManager()
     
@@ -17,24 +26,39 @@ class SettingsManager {
         if userDefaults.object(forKey: "settingsArray") == nil {
             let numbers = (1...100).map { String($0) }
             let formattedNumbers = numbers.joined(separator: ",")
-            getAndSetCoins(ids: formattedNumbers)
+            CoinManager.shared.getAndSetCoins(ids: formattedNumbers, reset: true)
         }
-        startPeriodicUpdates()
+        CoinManager.shared.startPeriodicUpdates()
     }
     
     // MARK: - User Defaults Variables
     
-    var settingsArray: [[String: String]] {
-        return userDefaults.array(forKey: "settingsArray") as? [[String: String]] ?? []
-    }
-    
-    var displayedArray: [[String: String]] {
+    var settingsArray: [CryptoCoin] {
         get {
-            return userDefaults.array(forKey: "displayedArray") as? [[String: String]] ?? []
+            guard let data = userDefaults.data(forKey: "settingsArray") else { return [] }
+            let decoder = JSONDecoder()
+            return (try? decoder.decode([CryptoCoin].self, from: data)) ?? []
         }
         set {
-            userDefaults.set(newValue, forKey: "displayedArray")
-            NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil)
+            let encoder = JSONEncoder()
+            if let data = try? encoder.encode(newValue) {
+                userDefaults.set(data, forKey: "settingsArray")
+            }
+        }
+    }
+    
+    var displayedArray: [CryptoCoin] {
+        get {
+            guard let data = userDefaults.data(forKey: "displayedArray") else { return [] }
+            let decoder = JSONDecoder()
+            return (try? decoder.decode([CryptoCoin].self, from: data)) ?? []
+        }
+        set {
+            let encoder = JSONEncoder()
+            if let data = try? encoder.encode(newValue) {
+                userDefaults.set(data, forKey: "displayedArray")
+                NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil)
+            }
         }
     }
     
@@ -82,85 +106,16 @@ class SettingsManager {
     }
     
     // MARK: - Methods
-
-    /// This function get the data, sorts it by price, add the data to userdefaults array and notifies the relevant classes for UI update.
-    /// - Parameter ids: Comma-separated string of coin IDs.
-    private func getAndSetCoins(ids: String) {
-        DispatchQueue.global().async {
-            NetworkManager.shared.getCoins(by: ids) { [weak self] coinData, error in
-                guard let self = self, let coinData = coinData, error == nil else {
-                    print("Error fetching coin data: \(String(describing: error))")
-                    return
-                }
-                
-                var defaultCoins: [[String: String]] = []
-                
-                if let coinDict = coinData.data {
-                    for (id, coinInfo) in coinDict {
-                        if let name = coinInfo.name, let symbol = coinInfo.symbol,
-                           let price = coinInfo.quote?.usd?.price {
-                            let amount = SettingsManager.shared.numberOfCoins[symbol] ?? 0
-                            let coinDetails: [String: String] = [
-                                "id": "\(id)",
-                                "name": name,
-                                "symbol": symbol,
-                                "price": "$\(String(format: "%.2f", price))",
-                                "amount": "\(amount)",
-                                "icon": "xrp-icon"
-                            ]
-                            defaultCoins.append(coinDetails)
-                        }
-                    }
-                }
-                
-                defaultCoins.sort {
-                    guard let price1 = Double($0["price"]?.replacingOccurrences(of: "$", with: "") ?? "0"),
-                          let price2 = Double($1["price"]?.replacingOccurrences(of: "$", with: "") ?? "0") else {
-                        return false
-                    }
-                    return price1 > price2
-                }
-                
-                if self.userDefaults.object(forKey: "settingsArray") == nil {
-                    self.userDefaults.set(defaultCoins, forKey: "settingsArray")
-                    NotificationCenter.default.post(name: Notification.Name("SettingsDataUpdated"), object: nil)
-                }
-                
-                self.userDefaults.set(defaultCoins, forKey: "displayedArray")
-                NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationName.displayedArrayChanged), object: nil)
-                }
-        }
-    }
     
     func resetDefaults() {
         userDefaults.removeObject(forKey: "settingsArray")
         userDefaults.removeObject(forKey: "displayedArray")
         let numbers = (1...100).map { String($0) }
         let formattedNumbers = numbers.joined(separator: ",")
-        getAndSetCoins(ids: formattedNumbers)
+        CoinManager.shared.getAndSetCoins(ids: formattedNumbers, reset: true)
     }
     
-    func isCoinDisplayed(_ coin: [String: String]) -> Bool {
-        return displayedArray.contains(where: { $0["symbol"] == coin["symbol"] })
-    }
-    
-    /// Updates data every 60 seconds.
-    private func startPeriodicUpdates() {
-        Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            
-            var idsArray: [String] = []
-            for coin in self.displayedArray {
-                if let id = coin["id"] {
-                    idsArray.append(id)
-                }
-            }
-            let ids = idsArray.joined(separator: ",")
-            
-            self.getAndSetCoins(ids: ids)
-            print("New data fetched")
-            
-            NotificationCenter.default.post(name: NSNotification.Name(AppConstants.NotificationName.chartValuesChanged), object: nil)
-        }
+    func isCoinDisplayed(_ coin: CryptoCoin) -> Bool {
+        return displayedArray.contains(where: { $0.symbol == coin.symbol })
     }
 }

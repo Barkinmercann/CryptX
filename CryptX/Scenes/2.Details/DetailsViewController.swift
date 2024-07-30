@@ -35,9 +35,7 @@ class DetailsViewController: BaseViewController, ChartViewDelegate {
     @IBOutlet private weak var percentage100Label: UIButton!
     @IBOutlet private weak var percentage50Label: UIButton!
     @IBOutlet private weak var percentage25Label: UIButton!
-    
-    var coin: [[String: String]] = []
-    
+        
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -48,11 +46,11 @@ class DetailsViewController: BaseViewController, ChartViewDelegate {
         collectionView.showsHorizontalScrollIndicator = false
         
         if let startCoin = SettingsManager.shared.displayedArray.first {
-            updateLabels(name: startCoin["name"] ?? "",
-                         symbol: startCoin["symbol"] ?? "",
-                         value: startCoin["price"] ?? "",
-                         symbolValue: startCoin["amount"] ?? "",
-                         image: startCoin["icon"] ?? "")
+            updateLabels(name: startCoin.name,
+                         symbol: startCoin.symbol,
+                         value: startCoin.price,
+                         symbolValue: startCoin.amount,
+                         image: startCoin.icon)
         }
         
         setupCosmetics()
@@ -80,7 +78,7 @@ class DetailsViewController: BaseViewController, ChartViewDelegate {
         print(entry)
     }
     
-    func setData(for coin: [String: String]?) {
+    func setData(for coin: CryptoCoin?) {
         let yValues = (0..<30).map { iterator -> ChartDataEntry in
             let yValue = Double.random(in: 1_000...6_000)
             return ChartDataEntry(x: Double(iterator), y: yValue)
@@ -118,11 +116,11 @@ class DetailsViewController: BaseViewController, ChartViewDelegate {
     
     @IBAction func cellButtonPressed(_ sender: UIButton) {
         let parameter = SettingsManager.shared.displayedArray[sender.tag]
-        updateLabels(name: parameter["name"] ?? "",
-                    symbol: parameter["symbol"] ?? "",
-                    value: parameter["price"] ?? "",
-                     symbolValue: String(SettingsManager.shared.numberOfCoins[parameter["symbol"] ?? ""] ?? 0),
-                    image: parameter["icon"] ?? "")
+        updateLabels(name: parameter.name,
+                     symbol: parameter.symbol,
+                     value: parameter.price,
+                     symbolValue: String(SettingsManager.shared.numberOfCoins[parameter.symbol] ?? 0),
+                     image: parameter.icon)
         setData(for: parameter)
     }
     
@@ -134,20 +132,25 @@ class DetailsViewController: BaseViewController, ChartViewDelegate {
     
     // MARK: - Buy and Sell Button
     
+    enum ActionType {
+        case buy
+        case sell
+    }
+    
     @IBAction func buyButtonPressed(_ sender: Any) {
-        buttonAction("Buy")
+        buttonAction(.buy)
     }
     
     @IBAction func sellButtonPressed(_ sender: Any) {
-        buttonAction("Sell")
+        buttonAction(.sell)
     }
     
-    func buttonAction(_ action: String) {
-        let alert = UIAlertController(title: "\(action) Coins", message: "Enter quantity:", preferredStyle: .alert)
+    func buttonAction(_ action: ActionType) {
+        let alert = UIAlertController(title: action == .buy ? "Buy Coins" : "Sell Coins", message: "Enter quantity:", preferredStyle: .alert)
             alert.addTextField { textField in
                 textField.keyboardType = .numberPad
             }
-        let buyAction = UIAlertAction(title: "\(action)", style: .default) { [weak self] _ in
+        let buyAction = UIAlertAction(title: action == .buy ? "Buy" : "Sell", style: .default) { [weak self] _ in
             guard let self = self,
                   let textField = alert.textFields?.first,
                   let quantityText = textField.text,
@@ -156,7 +159,7 @@ class DetailsViewController: BaseViewController, ChartViewDelegate {
                   let coinValue = Double(coinValueText) else { return }
 
             let totalCost = coinValue * quantity
-            if action == "Buy" {
+            if action == .buy {
                 self.buyCoins(quantity: quantity, totalCost: totalCost)
             } else {
                 self.sellCoins(quantity: quantity, totalCost: totalCost)
@@ -166,7 +169,7 @@ class DetailsViewController: BaseViewController, ChartViewDelegate {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
-    
+ 
     func buyCoins(quantity: Double, totalCost: Double) {
         if SettingsManager.shared.currentBalance >= totalCost {
             SettingsManager.shared.currentBalance -= totalCost
@@ -262,7 +265,7 @@ extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let collectionCell = collectionView.dequeueReusableCell(withReuseIdentifier: CoinCollectionViewCell.identifier,
                                                                for: indexPath) as? CoinCollectionViewCell else { return UICollectionViewCell() }
 
-        collectionCell.configureCell(title: SettingsManager.shared.displayedArray[indexPath.row]["symbol"],
+        collectionCell.configureCell(title: SettingsManager.shared.displayedArray[indexPath.row].symbol,
                                      tag: indexPath.row)
 
         return collectionCell

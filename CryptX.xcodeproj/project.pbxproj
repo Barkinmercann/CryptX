@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA03FE732C59A12300FB0325 /* CoinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA03FE722C59A12300FB0325 /* CoinManager.swift */; };
 		DA24DF802C53068B00A7CE6E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA24DF7F2C53068B00A7CE6E /* ProfileViewController.swift */; };
 		DA25B49D2C49A16000A620B5 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA25B49C2C49A16000A620B5 /* DetailsViewController.swift */; };
 		DA31119D2C53B0B20090EF78 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = DA31119C2C53B0B20090EF78 /* Lottie */; };
@@ -52,6 +53,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DA03FE722C59A12300FB0325 /* CoinManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinManager.swift; sourceTree = "<group>"; };
 		DA24DF7F2C53068B00A7CE6E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		DA25B49C2C49A16000A620B5 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		DA45E6872C469B9700599345 /* CryptX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptX.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,6 +153,7 @@
 				DA45E68C2C469B9700599345 /* SceneDelegate.swift */,
 				DA45E6952C469B9900599345 /* LaunchScreen.storyboard */,
 				DAC6E16A2C4DAB1600BF58BC /* SettingsManager.swift */,
+				DA03FE722C59A12300FB0325 /* CoinManager.swift */,
 			);
 			path = ApplicationLifeCycle;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				DA45E6A72C46BA4100599345 /* ColorExtension.swift in Sources */,
 				DAD20F9B2C4A36B90077AC77 /* CoinCollectionViewCell.swift in Sources */,
 				DA9795702C50FF44004ED106 /* CoinDataModel.swift in Sources */,
+				DA03FE732C59A12300FB0325 /* CoinManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

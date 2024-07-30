@@ -34,11 +34,11 @@ class SettingsTableViewCell: UITableViewCell {
         guard let coinName = coinName else { return }
         
         if sender.isOn {
-            if let coin = SettingsManager.shared.settingsArray.first(where: { $0["name"] == coinName }) {
+            if let coin = SettingsManager.shared.settingsArray.first(where: { $0.name == coinName }) {
                 SettingsManager.shared.displayedArray.append(coin)
             }
         } else {
-            if let index = SettingsManager.shared.displayedArray.firstIndex(where: { $0["name"] == coinName }) {
+            if let index = SettingsManager.shared.displayedArray.firstIndex(where: { $0.name == coinName }) {
                 SettingsManager.shared.displayedArray.remove(at: index)
             }
         }

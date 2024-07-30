@@ -226,15 +226,12 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
                                                            for: indexPath) as? CoinTableViewCell else { return UITableViewCell() }
         
         let coin = SettingsManager.shared.displayedArray[indexPath.row]
-        if let name = coin["name"], let symbol = coin["symbol"], let value = coin["price"],
-           let symbolValue = coin["amount"], let image = coin["icon"] {
-            coinCell.configureCell(
-                name: name,
-                symbol: symbol,
-                value: value,
-                symbolValue: symbolValue,
-                image: image)
-        }
+        coinCell.configureCell(
+            name: coin.name,
+            symbol: coin.symbol,
+            value: coin.price,
+            symbolValue: coin.amount,
+            image: coin.icon)
         
         return coinCell
     }
@@ -251,13 +248,12 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
         if let tabBarController = self.tabBarController {
             tabBarController.selectedIndex = 1
             let parameter = SettingsManager.shared.displayedArray[indexPath.row]
-            if let detailsVC = tabBarController.selectedViewController as? DetailsViewController, let name = parameter["name"],
-               let symbol = parameter["symbol"], let value = parameter["price"], let image = parameter["icon"] {
-                detailsVC.updateLabels(name: name,
-                                       symbol: symbol,
-                                       value: value,
-                                       symbolValue: String(SettingsManager.shared.numberOfCoins[symbol] ?? 0),
-                                       image: image)
+            if let detailsVC = tabBarController.selectedViewController as? DetailsViewController {
+                detailsVC.updateLabels(name: parameter.name,
+                                       symbol: parameter.symbol,
+                                       value: parameter.price,
+                                       symbolValue: String(SettingsManager.shared.numberOfCoins[parameter.symbol] ?? 0),
+                                       image: parameter.icon)
             }
         }
     }
