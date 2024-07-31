@@ -8,15 +8,6 @@
 import Foundation
 import UIKit
 
-struct CryptoCoin: Codable {
-    var id: String
-    var name: String
-    var symbol: String
-    var price: String
-    var amount: String
-    var icon: String
-}
-
 class SettingsManager {
     static let shared = SettingsManager()
     

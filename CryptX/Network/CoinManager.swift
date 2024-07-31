@@ -61,7 +61,7 @@ class CoinManager {
     
     /// Updates data every 60 seconds.
     func startPeriodicUpdates() {
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
+        Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             
             var idsArray: [String] = []
