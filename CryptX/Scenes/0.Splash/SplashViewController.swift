@@ -29,6 +29,8 @@ class SplashViewController: UIViewController {
     // MARK: - Set up
     
     @IBAction func startButtonPressed(_ sender: Any) {
+        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+
         performSegue(withIdentifier: AppConstants.Segue.enterTheApp, sender: self)
     }
     
