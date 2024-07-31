@@ -60,6 +60,9 @@ class HomepageViewController: BaseViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(AppConstants.NotificationName.balanceUpdated), object: nil, queue: .init()) { _ in
             self.handleBalanceUpdate()
         }
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(AppConstants.NotificationName.numberOfCoinsUpdated), object: nil, queue: .init()) { _ in
+            self.displayedArrayChanged()
+        }
     }
     
     func handleProfileDataUpdate() {
@@ -230,7 +233,7 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
             name: coin.name,
             symbol: coin.symbol,
             value: coin.price,
-            symbolValue: coin.amount,
+            symbolValue: String(SettingsManager.shared.numberOfCoins[coin.symbol] ?? 0),
             image: coin.icon)
         
         return coinCell
