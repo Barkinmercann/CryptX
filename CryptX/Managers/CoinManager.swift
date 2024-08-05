@@ -5,6 +5,7 @@
 //  Created by Mehmet Barkın Mercan on 31.07.2024.
 //
 
+import Firebase
 import Foundation
 import UIKit
 

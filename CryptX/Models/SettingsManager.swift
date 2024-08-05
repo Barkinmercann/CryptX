@@ -83,6 +83,7 @@ class SettingsManager {
         set {
             userDefaults.set(newValue, forKey: "currentBalance")
             NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationName.balanceUpdated), object: nil)
+            DatabaseManager.shared.updateBalance(self.currentBalance)
         }
     }
     
@@ -93,6 +94,25 @@ class SettingsManager {
         set {
             userDefaults.set(newValue, forKey: "numberOfCoins")
             NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationName.numberOfCoinsUpdated), object: nil)
+            DatabaseManager.shared.updateNumberOfCoins(self.numberOfCoins)
+        }
+    }
+    
+    var currentEmail: String {
+        get {
+            return userDefaults.string(forKey: "currentEmail") ?? ""
+        }
+        set {
+            userDefaults.set(newValue, forKey: "currentEmail")
+        }
+    }
+    
+    var isLoggedIn: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: "isLoggedInKey")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isLoggedInKey")
         }
     }
     
@@ -104,6 +124,15 @@ class SettingsManager {
         let numbers = (1...100).map { String($0) }
         let formattedNumbers = numbers.joined(separator: ",")
         CoinManager.shared.getAndSetCoins(ids: formattedNumbers, reset: true)
+    }
+    
+    func resetAllSystem() {
+        userDefaults.removeObject(forKey: "settingsArray")
+        userDefaults.removeObject(forKey: "displayedArray")
+        userDefaults.removeObject(forKey: "numberOfCoins")
+        userDefaults.removeObject(forKey: "currentBalance")
+        userDefaults.removeObject(forKey: "profileName")
+        userDefaults.removeObject(forKey: "isLoggedInKey")
     }
     
     func isCoinDisplayed(_ coin: CryptoCoin) -> Bool {

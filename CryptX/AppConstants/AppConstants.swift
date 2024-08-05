@@ -20,6 +20,14 @@ extension AppConstants {
         static let homepageToSettings = "homepageToSettings"
         
         static let detailsToSettings = "detailsToSettings"
+        
+        static let logInToSignUp = "logInToSignUp"
+        
+        static let successLogIn = "successLogIn"
+        
+        static let successSignUp = "successSignUp"
+        
+        static let logoutSegue = "logoutSegue"
     }
     
     struct NotificationName {

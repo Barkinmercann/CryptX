@@ -5,6 +5,7 @@
 //  Created by Mehmet Barkın Mercan on 26.07.2024.
 //
 
+import FirebaseAuth
 import Foundation
 import UIKit
 
@@ -15,7 +16,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet private weak var profilePhotoImageView: UIImageView!
     @IBOutlet private weak var profileNameTextField: UITextField!
     @IBOutlet private var imageChangeButton: UIButton!
-        
+    @IBOutlet private weak var logoutButton: UIButton!
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -31,6 +33,31 @@ class ProfileViewController: UIViewController {
         imageChangeButton.layer.cornerRadius = imageChangeButton.frame.size.width / 2
         profilePhotoImageView.image = SettingsManager.shared.profilePhoto
         profileNameTextField.text = SettingsManager.shared.profileName
+    }
+    
+    // MARK: Log Out Button
+    
+    @IBAction func logoutButtonPressed(_ sender: Any) {
+        let alert = UIAlertController(title: "Confirm Logout", message: "Are you sure you want to log out?", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        alert.addAction(UIAlertAction(title: "Logout", style: .destructive, handler: { _ in
+            self.performLogout()
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+        
+    func performLogout() {
+        SettingsManager.shared.resetAllSystem()
+        
+        do {
+            try Auth.auth().signOut()
+            performSegue(withIdentifier: AppConstants.Segue.logoutSegue, sender: self)
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError.localizedDescription)
+        }
     }
     
     // MARK: - Save Button

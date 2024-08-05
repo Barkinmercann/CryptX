@@ -235,7 +235,6 @@ extension HomepageViewController: UITableViewDelegate, UITableViewDataSource {
             value: coin.price,
             symbolValue: String(SettingsManager.shared.numberOfCoins[coin.symbol] ?? 0),
             image: coin.icon)
-        
         return coinCell
     }
     

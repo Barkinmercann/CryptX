@@ -5,6 +5,7 @@
 //  Created by Mehmet Barkın Mercan on 16.07.2024.
 //
 
+import FirebaseCore
 import UIKit
 
 @main
