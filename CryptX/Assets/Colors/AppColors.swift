@@ -18,4 +18,6 @@ struct AppColors {
     static let secondaryGreen = "#48D49E"
     
     static let secondaryOrange = "#FF8266"
+    
+    static let coinIconColor = "212125"
 }
