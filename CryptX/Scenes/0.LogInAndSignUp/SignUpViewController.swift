@@ -70,7 +70,7 @@ class SignUpViewController: BaseViewController {
     private func initializeUserData(email: String) {
         let initialBalance = 0.0
         let initialNumberOfCoins: [String: Double] = [:]
-        DatabaseManager.shared.updateUserData(email: email, balance: initialBalance, numberOfCoins: initialNumberOfCoins)
+        DatabaseManager.shared.updateUserData(email: email, balance: initialBalance, numberOfCoins: initialNumberOfCoins, profileName: "User")
         performSegue(withIdentifier: AppConstants.Segue.successSignUp, sender: self)
     }
 }

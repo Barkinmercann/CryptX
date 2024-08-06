@@ -111,9 +111,10 @@ class LoginViewController: BaseViewController {
     private func fetchUserDataAndUpdateSettings(email: String) {
         DatabaseManager.shared.fetchUserData(email: email) { result in
             switch result {
-            case .success(let (balance, numberOfCoins)):
-                SettingsManager.shared.currentBalance = balance
-                SettingsManager.shared.numberOfCoins = numberOfCoins
+            case .success(let userData):
+                SettingsManager.shared.currentBalance = userData.balance
+                SettingsManager.shared.numberOfCoins = userData.numberOfCoins
+                SettingsManager.shared.profileName = userData.profileName
                 self.performSegue(withIdentifier: AppConstants.Segue.successLogIn, sender: self)
             case .failure(let error):
                 self.showErrorAlert(message: "Failed to fetch user data: \(error.localizedDescription)")

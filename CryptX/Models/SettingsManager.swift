@@ -56,9 +56,9 @@ class SettingsManager {
     var profilePhoto: UIImage {
         get {
             if let imageData = userDefaults.data(forKey: "profilePhoto") {
-                return UIImage(data: imageData) ?? UIImage.avatarIcon
+                return UIImage(data: imageData) ?? UIImage.launchScreen
             }
-            return UIImage.avatarIcon
+            return UIImage.launchScreen
         }
         set {
             if let imageData = newValue.pngData() {
@@ -73,6 +73,7 @@ class SettingsManager {
         }
         set {
             userDefaults.set(newValue, forKey: "profileName")
+            DatabaseManager.shared.updateProfileName(newValue)
         }
     }
     

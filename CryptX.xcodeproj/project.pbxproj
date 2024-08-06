@@ -11,6 +11,7 @@
 		DA24DF802C53068B00A7CE6E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA24DF7F2C53068B00A7CE6E /* ProfileViewController.swift */; };
 		DA25B49D2C49A16000A620B5 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA25B49C2C49A16000A620B5 /* DetailsViewController.swift */; };
 		DA31119D2C53B0B20090EF78 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = DA31119C2C53B0B20090EF78 /* Lottie */; };
+		DA3BC50E2C6222B9000745F5 /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BC50D2C6222B9000745F5 /* UserDataModel.swift */; };
 		DA3BCD282C5CD3C60065317B /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = DA3BCD272C5CD3C60065317B /* FirebaseAnalytics */; };
 		DA3BCD2A2C5CD3C60065317B /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = DA3BCD292C5CD3C60065317B /* FirebaseAnalyticsOnDeviceConversion */; };
 		DA3BCD2C2C5CD3C60065317B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = DA3BCD2B2C5CD3C60065317B /* FirebaseAnalyticsWithoutAdIdSupport */; };
@@ -68,6 +69,7 @@
 		DA03FE722C59A12300FB0325 /* CoinManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinManager.swift; sourceTree = "<group>"; };
 		DA24DF7F2C53068B00A7CE6E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		DA25B49C2C49A16000A620B5 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		DA3BC50D2C6222B9000745F5 /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
 		DA3BCD312C5CE76A0065317B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DA45E6872C469B9700599345 /* CryptX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA45E68A2C469B9700599345 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				DA97956F2C50FF44004ED106 /* CoinDataModel.swift */,
 				DA9A7C4D2C5A316A00B50A96 /* CryptoCoin.swift */,
 				DAC6E16A2C4DAB1600BF58BC /* SettingsManager.swift */,
+				DA3BC50D2C6222B9000745F5 /* UserDataModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA3BC50E2C6222B9000745F5 /* UserDataModel.swift in Sources */,
 				DAB90AE12C5EB98A0040286D /* SignUpViewController.swift in Sources */,
 				DAB90ADF2C5EAF340040286D /* LoginViewController.swift in Sources */,
 				DA45E6B72C46DEC700599345 /* AppFonts.swift in Sources */,
